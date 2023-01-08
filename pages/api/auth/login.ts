@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const scope = "streaming user-read-email user-read-private"
+    const scope = "streaming user-read-email user-read-private user-top-read"
     const spotifyClientId = process.env.SPOTIFY_CLIENT_ID || '';
     const spotifyRedirectUri = process.env.SPOTIFY_REDIRECT_URI || '';
     const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET || '';
