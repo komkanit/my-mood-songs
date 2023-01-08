@@ -1,4 +1,5 @@
 import { getCookie } from "cookies-next";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function SpotifyLoginButton() {
@@ -12,9 +13,9 @@ export default function SpotifyLoginButton() {
             <button>Logged in</button>
         )
         : (
-            <a href="/api/auth/login">
+            <Link href="/api/auth/login">
                 <button>Login with Spotify</button>
-            </a>
+            </Link>
         )
     );
 }
