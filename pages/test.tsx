@@ -1,29 +1,6 @@
 import React, { useEffect, useRef } from "react";
+import PreviewMusic from "../components/PreviewMusic";
 import { spotifyClient } from "../lib/spotifyClient";
-
-function Audio(props: { previewUrl: string }) {
-    const audioRef = useRef(null) as any;
-  
-    const playMusic = () => {
-      audioRef.current.play();
-    };
-    const pauseMusic = () => {
-        audioRef.current.pause();
-    };
-    const restartMusic = () => {
-        audioRef.current.currentTime = 0;
-    }
-
-  
-    return (
-      <div>
-        <audio ref={audioRef} src={props.previewUrl} />
-        <button onClick={playMusic}>Preview</button>
-        <button onClick={pauseMusic}>Pause</button>
-        <button onClick={restartMusic}>Restart</button>
-      </div>
-    );
-  }
 
 export default function Index() {
     const [user, setUser] = React.useState<any>(null);
@@ -68,6 +45,13 @@ seed_genres:indie r&b,chill r&b,pop`
             data[key] = value.split(',').filter((d) => d);
         }
         console.log(data)
+        if (data.seed_tracks?.length === 0) {
+            data.seed_tracks = topTracks.slice(0, 5).map((track: any) => track.id);
+        }
+
+        if (data.seed_artists?.length === 0) {
+            data.seed_artists = topArtists.slice(0, 5).map((artist: any) => artist.id);
+        }
         if (data.seed_artists?.length > 0 && data.seed_tracks?.length > 0 && data.seed_genres?.length > 0) {
             spotifyClient.getRecommendations(data).then((response) => {
                 console.log(response);
@@ -99,7 +83,7 @@ seed_genres:indie r&b,chill r&b,pop`
                                     <li key={artist.id}>{artist.name} : {artist.id}</li>
                                 ))}
                             </ul>
-                            <Audio previewUrl={track.preview_url} />
+                            <PreviewMusic previewUrl={track.preview_url} />
                         </div>
                     ))
                 }
@@ -122,6 +106,7 @@ seed_genres:indie r&b,chill r&b,pop`
         <textarea style={{height: '200px', width: '400px'}} value={otherInputs} onChange={(e) => setOtherInputs(e.target.value)} />
         <button onClick={() => setSearchRecommendation(!searchRecommendation)}>search</button>
         <p style={{color: 'grey'}}>Example seed_tracks:xxx,yyy,xxx (DO NOT ADD ANY SPACE BETWEEN VALUE)</p>
+        <p>Available genres: acoustic, afrobeat, alt-rock, alternative, ambient, anime, black-metal, bluegrass, blues, bossanova, brazil, breakbeat, british, cantopop, chicago-house, children, chill, classical, club, comedy, country, dance, dancehall, death-metal, deep-house, detroit-techno, disco, disney, drum-and-bass, dub, dubstep, edm, electro, electronic, emo, folk, forro, french, funk, garage, german, gospel, goth, grindcore, groove, grunge, guitar, happy, hard-rock, hardcore, hardstyle, heavy-metal, hip-hop, holidays, honky-tonk, house, idm, indian, indie, indie-pop, industrial, iranian, j-dance, j-idol, j-pop, j-rock, jazz, k-pop, kids, latin, latino, malay, mandopop, metal, metal-misc, metalcore, minimal-techno, movies, mpb, new-age, new-release, opera, pagode, party, philippines-opm, piano, pop, pop-film, post-dubstep, power-pop, progressive-house, psych-rock, punk, punk-rock, r-n-b, rainy-day, reggae, reggaeton, road-trip, rock, rock-n-roll, rockabilly, romance, sad, salsa, samba, sertanejo, show-tunes, singer-songwriter, ska, sleep, songwriter, soul, soundtracks, spanish, study, summer, swedish, synth-pop, tango, techno, trance, trip-hop, turkish, work-out, world-music</p>
         {
             recommendationTracks.map((track: any) => (
                 <div key={track.id}>
@@ -131,7 +116,7 @@ seed_genres:indie r&b,chill r&b,pop`
                             <li key={artist.id}>{artist.name} : {artist.id}</li>
                         ))}
                     </ul>
-                    <Audio previewUrl={track.preview_url} />
+                    <PreviewMusic previewUrl={track.preview_url} />
                 </div>
             ))
         }
