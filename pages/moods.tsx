@@ -6,6 +6,14 @@ import { moodHelper } from "../lib/moodHelper";
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
+    if (!isLogin) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
     return {
         props: {
             isLogin,

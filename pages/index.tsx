@@ -18,7 +18,7 @@ export default function Index(props: { isLogin: boolean }) {
         <h1>Index</h1>
         <SpotifyLoginButton />
         <div>
-            <Link href="/moods">Your mood</Link>
+            {props.isLogin && <Link href="/moods">Your mood</Link>}
         </div>
     </div>;
 }
