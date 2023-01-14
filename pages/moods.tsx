@@ -1,8 +1,8 @@
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import React from "react";
-import SpotifyLoginButton from "../components/SpotifyLoginButton";
 import { isAuth } from "../lib/isAuth";
+import { moodHelper } from "../lib/moodHelper";
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -14,11 +14,19 @@ export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = asyn
   }
 
 export default function Index(props: { isLogin: boolean }) {
-    return <div>
-        <h1>Index</h1>
-        <SpotifyLoginButton />
-        <div>
-            <Link href="/moods">Your mood</Link>
-        </div>
-    </div>;
+    const moodIds = moodHelper.listMoodIds();
+    
+    return (<div>
+        <h1>moods</h1>
+        {
+            moodIds.map((moodId) => {
+                const mood = moodHelper.getMood(moodId);
+                return <div key={moodId}>
+                    <Link href={`/moods/${moodId}`}>
+                        {mood.text}
+                    </Link>
+                </div>
+            })
+        }
+    </div>);
 }

@@ -29,6 +29,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const accessToken = response.data.access_token;
   const refreshToken = response.data.refresh_token;
   setCookie('accessToken', accessToken, { maxAge: 3600, req, res });
-  setCookie('refreshToken', refreshToken, { maxAge: 3600 * 24, req, res });
+  setCookie('refreshToken', refreshToken, { maxAge: 3600 * 24 * 2, req, res });
   res.redirect("/");
 }
