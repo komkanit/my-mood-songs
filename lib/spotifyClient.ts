@@ -86,12 +86,16 @@ export const spotifyClient = {
         target_valence?: number,
     }) => {
         const params = new URLSearchParams({
-            seed_genres: input.seed_genres.join(','),
             limit: input.limit?.toString() || '20',
         })
         if (input.seed_artists.length > 0) {
             input.seed_artists.map((artist) => {
                 params.append('seed_artists', artist);
+            })
+        }
+        if (input.seed_genres.length > 0) {
+            input.seed_genres.map((g) => {
+                params.append('seed_genres', g);
             })
         }
         if (input.seed_tracks.length > 0) {
@@ -106,13 +110,13 @@ export const spotifyClient = {
         Object.keys(input).map((k) => {
             const key = k as keyof typeof input;
             const data = input[key];
-            if (key.startsWith('max_') && data) {
+            if (key.startsWith('max_') && typeof data === 'number') {
                 params.append(key, data.toString());
             }
-            if (key.startsWith('min_') && data) {
+            if (key.startsWith('min_') && typeof data === 'number') {
                 params.append(key, data.toString());
             }
-            if (key.startsWith('target_') && data) {
+            if (key.startsWith('target_') && typeof data === 'number') {
                 params.append(key, data.toString());
             }
         })
