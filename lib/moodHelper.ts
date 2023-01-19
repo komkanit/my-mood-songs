@@ -1,8 +1,9 @@
 type MoodConfig = {
-    [key: string]: {
-        spotifyConfig: any
-        text: string
-    }
+    [key: string]: MoodConfigValue
+}
+export type MoodConfigValue = {
+    spotifyConfig: any
+    text: string
 }
 const mood: MoodConfig = {
     happy: {

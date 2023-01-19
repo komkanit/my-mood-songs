@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { moodHelper } from '../../lib/moodHelper'
-import { spotifyClient } from '../../lib/spotifyClient'
 import PreviewMusic from '../../components/PreviewMusic'
 import { isAuth } from '../../lib/isAuth'
+import { useRecommendedTracks } from '../../lib/hook/useRecommendedTracks'
+import SpotifyPlayer from '../../components/SpotifyPlayer'
+import Track from '../../components/Track'
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -25,54 +27,24 @@ export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = asyn
 
 const MoodPage = () => {
   const router = useRouter()
-  const [recommendedTracks, setRecommendedTracks] = React.useState<any>([])
   const { mood_name } = router.query
+  const mood = moodHelper.getMood(mood_name as string);
+  const { recommendedTracks, isLoading } = useRecommendedTracks(mood);
+  const [currentTrack, setCurrentTrack] = useState<any>(null);
+
   useEffect(() => {
-    const mood = moodHelper.getMood(mood_name as string);
     if (!mood) {
       router.push('/moods');
     }
-    const getUserTopTracksAsync = spotifyClient.getUserTopItems('tracks', 'medium_term', 7);
-    const getUserTopArtistsAsync = spotifyClient.getUserTopItems('artists', 'medium_term', 7);
-    Promise.all([getUserTopTracksAsync, getUserTopArtistsAsync]).then((values) => {
-      const userTopTracks = values[0];
-      const userTopArtists = values[1];
-      const genres = userTopArtists.items.reduce((accumulator: string[], currentValue: any) => {
-        return [
-          ...accumulator,
-          ...currentValue.genres,
-        ]
-      }, []);
-      const seedGenres = moodHelper.artistGenesToAvailableGenres(genres);
-      spotifyClient.getRecommendations({
-        seed_tracks: userTopTracks.items.slice(0, 5).map((track: any) => track.id),
-        seed_artists: userTopArtists.items.slice(0, 5).map((artist: any) => artist.id),
-        seed_genres: seedGenres,
-        limit: 20,
-        ...mood.spotifyConfig,
-
-      }).then((response) => {
-        setRecommendedTracks(response.tracks);
-      });
-    })
-
-
   }, []);
 
   return (
     <div>
       <h1>You are currently feeling {mood_name}</h1>
+      <SpotifyPlayer currentTrack={currentTrack} />
       {
             recommendedTracks.map((track: any) => (
-                <div key={track.id}>
-                    <p>{track.name} : {track.id}</p>
-                    <ul>
-                        {track.artists.map((artist: any) => (
-                            <li key={artist.id}>{artist.name} : {artist.id}</li>
-                        ))}
-                    </ul>
-                    <PreviewMusic previewUrl={track.preview_url} />
-                </div>
+                <Track key={track.id} track={track} onClick={(track) => setCurrentTrack(track)} />
             ))
         }
     </div>
