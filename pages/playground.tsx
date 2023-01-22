@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import PreviewMusic from "../components/PreviewMusic";
 import { spotifyClient } from "../lib/spotifyClient";
 
 export default function Index() {
@@ -83,7 +82,6 @@ seed_genres:indie r&b,chill r&b,pop`
                                     <li key={artist.id}>{artist.name} : {artist.id}</li>
                                 ))}
                             </ul>
-                            <PreviewMusic previewUrl={track.preview_url} />
                         </div>
                     ))
                 }
@@ -116,7 +114,6 @@ seed_genres:indie r&b,chill r&b,pop`
                             <li key={artist.id}>{artist.name} : {artist.id}</li>
                         ))}
                     </ul>
-                    <PreviewMusic previewUrl={track.preview_url} />
                 </div>
             ))
         }
