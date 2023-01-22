@@ -1,7 +1,9 @@
 import { GetServerSideProps } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import SpotifyLoginButton from "../components/SpotifyLoginButton";
+import SpotifyLoginButton from "../components/login/SpotifyLoginButton";
+import TitleText from "../components/login/TitleText";
 import { isAuth } from "../lib/isAuth";
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
@@ -14,11 +16,13 @@ export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = asyn
   }
 
 export default function Index(props: { isLogin: boolean }) {
-    return <div>
-        <h1>Index</h1>
-        <SpotifyLoginButton />
-        <div>
-            {props.isLogin && <Link href="/moods">Your mood</Link>}
+    return (
+        <div className="text-center mt-24">
+            <TitleText text="You tell your" boldText="mood" icon="/images/smile-icon.png" />
+            <TitleText text="I tell you" boldText="songs" icon="/images/music-icon.png" />
+            <Image className="mx-auto my-5" width={250} height={250} src="/images/mood-main.png" alt="" />
+            <p className="mb-5">Personalize songs for your current mood</p>
+            <SpotifyLoginButton />
         </div>
-    </div>;
+    );
 }

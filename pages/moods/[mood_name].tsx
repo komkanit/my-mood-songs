@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { moodHelper } from '../../lib/moodHelper'
-import PreviewMusic from '../../components/PreviewMusic'
 import { isAuth } from '../../lib/isAuth'
 import { useRecommendedTracks } from '../../lib/hook/useRecommendedTracks'
 import SpotifyPlayer from '../../components/SpotifyPlayer'
 import Track from '../../components/Track'
+import { SpotifyTrack } from '../../lib/spotifyClient'
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -30,7 +30,7 @@ const MoodPage = () => {
   const { mood_name } = router.query
   const mood = moodHelper.getMood(mood_name as string);
   const { recommendedTracks, isLoading } = useRecommendedTracks(mood);
-  const [currentTrack, setCurrentTrack] = useState<any>(null);
+  const [currentTrack, setCurrentTrack] = useState<SpotifyTrack | null>(null);
 
   useEffect(() => {
     if (!mood) {
