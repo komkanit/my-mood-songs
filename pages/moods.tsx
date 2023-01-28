@@ -1,8 +1,8 @@
 import { GetServerSideProps } from "next";
-import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Mood from "../components/listMoods/Mood";
 import { isAuth } from "../lib/isAuth";
-import { moodHelper } from "../lib/moodHelper";
+import { FeelingType, moodHelper } from "../lib/moodHelper";
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -19,22 +19,35 @@ export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = asyn
             isLogin,
         }
     }
-  }
+}
+
+const shuffle = (array: any[]) => {
+    let currentIndex = array.length,  randomIndex;
+    while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
+    return array;
+}
 
 export default function Index(props: { isLogin: boolean }) {
-    const moodIds = moodHelper.listMoodIds();
+    const [feelings, setFeelings] = useState<FeelingType[]>([]);
+    useEffect(() => {
+        const f = shuffle(moodHelper.listFeelings());
+        setFeelings(f)
+    }, [])
+    const firstSet = 8
     
-    return (<div>
-        <h1>moods</h1>
-        {
-            moodIds.map((moodId) => {
-                const mood = moodHelper.getMood(moodId);
-                return <div key={moodId}>
-                    <Link href={`/moods/${moodId}`}>
-                        {mood.text}
-                    </Link>
-                </div>
-            })
-        }
+    return (<div className="mt-10">
+        <div className="flex flex-wrap justify-center">
+            { feelings.slice(0, firstSet).map((feeling) => <Mood key={feeling.feeling} feeling={feeling} />) }
+        </div>
+        <p className="text-2xl font-bold text-theme-grey text-center mt-3">How are you feeling today?</p>
+        <p className="text-xl text-center mb-3">Let your mood pick the music</p>
+        <div className="flex flex-wrap justify-center">
+            { feelings.slice(firstSet).map((feeling) => <Mood key={feeling.feeling} feeling={feeling} />) }
+        </div>
     </div>);
 }
