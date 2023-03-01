@@ -41,13 +41,10 @@ export default function Index(props: { isLogin: boolean }) {
     const firstSet = 8
     
     return (<div className="mt-10">
-        <div className="flex flex-wrap justify-center">
-            { feelings.slice(0, firstSet).map((feeling) => <Mood key={feeling.feeling} feeling={feeling} />) }
-        </div>
         <p className="text-2xl font-bold text-theme-grey text-center mt-3">How are you feeling today?</p>
         <p className="text-xl text-center mb-3">Let your mood pick the music</p>
         <div className="flex flex-wrap justify-center">
-            { feelings.slice(firstSet).map((feeling) => <Mood key={feeling.feeling} feeling={feeling} />) }
+            { feelings.map((feeling) => <Mood key={feeling.feeling} feeling={feeling} />) }
         </div>
     </div>);
 }

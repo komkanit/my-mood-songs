@@ -22,6 +22,9 @@ export type SpotifyTrack = {
     name: string
     preview_url: string
     uri: string
+    external_urls: {
+        spotify: string
+    }
 }
 
 export const spotifyClient = {

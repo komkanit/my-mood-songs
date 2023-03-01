@@ -31,6 +31,7 @@ const MoodPage = () => {
   const mood = moodHelper.getMood(mood_name as string);
   const { recommendedTracks, isLoading } = useRecommendedTracks(mood);
   const [currentTrack, setCurrentTrack] = useState<SpotifyTrack | null>(null);
+  const [currentMenu, setCurrentMenu] = useState<SpotifyTrack | null>(null)
 
   useEffect(() => {
     if (!mood) {
@@ -38,15 +39,32 @@ const MoodPage = () => {
     }
   }, []);
 
+  const onMenuClick = (track: SpotifyTrack) => {
+    if (currentMenu === track) {
+      setCurrentMenu(null);
+    } else {
+      setCurrentMenu(track);
+    }
+  }
+
   return (
-    <div>
-      <h1>You are currently feeling {mood_name}</h1>
-      <SpotifyPlayer currentTrack={currentTrack} />
-      {
-            recommendedTracks.map((track: any) => (
-                <Track key={track.id} track={track} onClick={(track) => setCurrentTrack(track)} />
+    <div className="mt-10">
+      <div className="text-center">
+        <div className={`inline-block h-20 w-20 rounded-full ${mood.colors[2]}`}>
+
+        </div>
+      </div>
+      <h1 className="text-center text-2xl font-bold">{mood_name}</h1>
+      <SpotifyPlayer playlist={recommendedTracks} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
+      <div className={`${mood.colors[2]} p-5`}>
+        {
+            recommendedTracks.map((track) => (
+                <div key={track.id} className="pb-5">
+                  <Track track={track} onClick={(track) => setCurrentTrack(track)} onMenuClick={onMenuClick} showMenu={track.id === currentMenu?.id} />
+                </div>
             ))
         }
+      </div>
     </div>
   )
 }

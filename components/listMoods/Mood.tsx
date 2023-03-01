@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FeelingType } from "../../lib/moodHelper";
 
 const randomNumber = () => {
-    const numbers = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+    const numbers = [300, 400, 500, 600, 700];
     return Math.floor(Math.random() * numbers.length);
 }
 
