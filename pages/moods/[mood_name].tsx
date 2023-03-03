@@ -8,6 +8,7 @@ import SpotifyPlayer from '../../components/SpotifyPlayer'
 import Track from '../../components/Track'
 import { spotifyClient, SpotifyTrack } from '../../lib/spotifyClient'
 import Image from 'next/image'
+import { useSpotifyPlayer } from '../../lib/hook/useSpotifyPlayer'
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });

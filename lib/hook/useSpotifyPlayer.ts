@@ -18,8 +18,10 @@ export const useSpotifyPlayer = () => {
             getOAuthToken: (cb: any) => { cb(token); },
             volume: 0.5
         })
+        console.log('*** player', player)
         player.addListener('ready', ({ device_id }: { device_id: string }) => {
           console.log('Ready with Device ID', device_id);
+          console.log('*** player ready', player)
           setPlayer(player)
           setDeviceId(device_id)
           setActive(true)

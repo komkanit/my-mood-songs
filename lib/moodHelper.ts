@@ -7,7 +7,7 @@ export type MoodConfigValue = {
     feelings: string[]
     colors: string[]
 }
-export type FeelingType = {feeling: string, mood: string, colors: string[]}
+export interface FeelingType {feeling: string, mood: string, colors: string[]}
 const mood: MoodConfig = {
     happy: {
         spotifyConfig: {
@@ -20,7 +20,7 @@ const mood: MoodConfig = {
             min_tempo:160,
         },
         text: 'Happy',
-        feelings: ['Fullfilled', 'Happy', 'Joyfull', 'Good', 'Satisfied', 'Pleased', 'Productive', 'Active', 'Energetic', 'Focus', 'Motivated'],
+        feelings: ['Fullfilled', 'Happy', 'Joyfull', 'Good', 'Satisfied', 'Productive', 'Active', 'Focus', 'Motivated'],
         colors: ['bg-green-300', 'bg-green-400', 'bg-green-500', 'bg-green-600', 'bg-green-700'],
     },
     sad: {
@@ -34,7 +34,7 @@ const mood: MoodConfig = {
         max_tempo:80,
         },
         text: 'sad',
-        feelings: ['Sad', 'Lonely', 'Depressed', 'Tired', 'Bored', 'Empty', 'Lazy', 'Exhausted', 'Disgust', 'Sick'],
+        feelings: ['Sad', 'Lonely', 'Depressed', 'Tired', 'Bored', 'Empty', 'Lazy', 'Sick'],
         colors: ['bg-blue-300', 'bg-blue-400', 'bg-blue-500', 'bg-blue-600', 'bg-blue-700'],
     },
     angry: {
@@ -76,7 +76,7 @@ const mood: MoodConfig = {
             max_tempo:85,
         },
         text: 'unsure',
-        feelings: ['Unsure', 'Insecure', 'Dissociate', 'Nervous', 'Afraid', 'Worried', 'Concern', 'Troubled'],
+        feelings: ['Unsure', 'Insecure', 'Nervous', 'Afraid', 'Worried', 'Concern', 'Troubled'],
         colors: ['bg-yellow-300', 'bg-yellow-400', 'bg-yellow-500', 'bg-yellow-600', 'bg-yellow-700'],
     },
 }

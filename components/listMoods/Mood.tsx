@@ -1,38 +1,46 @@
 import Link from "next/link";
-import { FeelingType } from "../../lib/moodHelper";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { random } from "../../lib/helper";
+import { CustomFeelingType } from "../../pages/moods";
 
 const randomNumber = () => {
     const numbers = [300, 400, 500, 600, 700];
-    return Math.floor(Math.random() * numbers.length);
+    return random(0, numbers.length - 1);
 }
 
-const randomSize = () => {
-    // const width = ['w-16', 'w-20', 'w-24', 'w-28', 'w-32', 'w-36', 'w-40']
-    // const height = ['h-16', 'h-20', 'h-24', 'h-28', 'h-32', 'h-36', 'h-40']
-    const width = ['w-16', 'w-24','w-16', 'w-24', 'w-32','w-16', 'w-24', 'w-32', 'w-36']
-    const height = ['h-16', 'h-24','h-16', 'h-24', 'h-32','h-16', 'h-24', 'h-32', 'h-36']
-    const index = Math.floor(Math.random() * width.length);
-    return {
-        width: width[index],
-        height: height[index],
+export default function Mood({feeling}: { feeling: CustomFeelingType }) {
+    const [opacity, setOpacity] = useState('opacity-0')
+    const [duration, setDuration] = useState('duration-300')
+    const [width, setWidth] = useState(`w-${feeling.size}`);
+    const [height, setHeight] = useState(`h-${feeling.size}`);
+    const [zIndex, setZIndex] = useState('')
+    const [scale, setScale] = useState('')
+    const router = useRouter();
+    const [transitionPage, setTransitionPage] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setOpacity('opacity-100')
+        }, random(0, 3000 + (feeling.set * 300)))
+    }, [])
+
+    const onClick = () => {
+        setTransitionPage(true)
+        setDuration('duration-700')
+        setZIndex('z-10')
+        setScale('scale-250')
+        setTimeout(() => {
+            router.push(`/moods/${feeling.mood}`)
+        }, 700)
     }
-}
-
-const randomPosition = () => {
-    const position = ['m-0', 'mt-2', 'mt-3', 'mt-4', 'mt-6']
-    const index = Math.floor(Math.random() * position.length);
-    return position[index];
-}
-
-export default function Mood({feeling}: { feeling: FeelingType }) {
-    const size = randomSize()
 
     return (
-        <Link key={feeling.feeling} href={`/moods/${feeling.mood}`} className={`m-0.5 ${size.width !== 'w-36' ? randomPosition() : ''}`}>
-            <div className={`rounded-full ${feeling.colors[randomNumber()]} ${size.width} ${size.height} flex justify-center items-center`}>
+        <div onClick={onClick} className={`absolute cursor-pointer ${zIndex}`} key={feeling.feeling} style={{top: feeling.y, left: feeling.x, transform: 'translate(-50%, 0%)'}}>
+            <div className={`${scale} w-${opacity} transition ${duration} ease-in-out ${transitionPage ? '' : 'hover:scale-125'} rounded-full ${feeling.colors[randomNumber()]} ${width} ${height} flex justify-center items-center`}>
                 <span className="font-bold">{feeling.feeling}</span>
             </div>
-        </Link>
+        </div>
     )
     
 }

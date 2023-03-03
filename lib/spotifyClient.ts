@@ -28,11 +28,11 @@ export type SpotifyTrack = {
 }
 
 export const spotifyClient = {
-    playSpotifyUrl: async (url: string, deviceId: string) => {
+    playSpotifyUrl: async (uris: string[], deviceId: string) => {
         const accessToken = getCookie('accessToken');
         try {
             const response = await axios.put(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
-                uris: [url],
+                uris: uris,
             }, {
                 headers: {
                     'Content-Type': 'application/json',

@@ -12,11 +12,13 @@ export default function SpotifyLoginButton() {
     }, [])
     return (
         loggedIn ? (
-            <Link href="/moods"><button className="text-theme-yellow bg-theme-blue px-8 py-2 rounded-full">Start!</button></Link>
+            <Link href="/moods">
+                <button className="animate-bounce text-theme-yellow bg-theme-blue px-8 py-2 rounded-full">Start!</button>
+            </Link>
         )
         : (
             <Link href="/api/auth/login">
-                <button className="text-theme-yellow bg-theme-blue px-5 py-2 rounded-full">Login with Spotify <Image className="inline-block" width={spotifyIconSize} height={spotifyIconSize} src="/images/spotify-icon.png" alt="" /></button>
+                <button className="transition duration-150 hover:scale-125 text-theme-yellow bg-theme-blue px-5 py-2 rounded-full">Login with Spotify <Image className="inline-block" width={spotifyIconSize} height={spotifyIconSize} src="/images/spotify-icon.png" alt="" /></button>
             </Link>
         )
     );

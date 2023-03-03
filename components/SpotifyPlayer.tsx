@@ -2,15 +2,32 @@ import React, { useEffect } from 'react'
 import { spotifyClient, SpotifyTrack } from '../lib/spotifyClient'
 import { useSpotifyPlayer } from '../lib/hook/useSpotifyPlayer'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 const SpotifyPlayer = (props: { currentTrack: SpotifyTrack | null, playlist: SpotifyTrack[], setCurrentTrack: React.Dispatch<React.SetStateAction<SpotifyTrack | null>> }) => {
     const { currentTrack } = props
     const {player, deviceId, isActive} = useSpotifyPlayer();
     const [isPlaying, setIsPlaying] = React.useState(false)
+    const router = useRouter();
+
+    useEffect(() => {
+      const handleRouteChange = () => {
+        console.log('handleRouteChange')
+        player.pause();
+      }
+
+      router.events.on('routeChangeStart', handleRouteChange)
+
+      // If the component is unmounted, unsubscribe
+      // from the event with the `off` method:
+      return () => {
+        router.events.off('routeChangeStart', handleRouteChange)
+      }
+    }, [ player ]);
 
     useEffect(() => {
       if (currentTrack && isActive && deviceId) {
-        spotifyClient.playSpotifyUrl(currentTrack.uri, deviceId)
+        spotifyClient.playSpotifyUrl([currentTrack.uri], deviceId)
         setIsPlaying(true)
       }
     }, [currentTrack, isActive, deviceId])
@@ -52,7 +69,7 @@ const SpotifyPlayer = (props: { currentTrack: SpotifyTrack | null, playlist: Spo
               </button>
 
               <button className="mx-10" onClick={() => { togglePlay() }} >
-                <Image src={isPlaying ? "/images/pause-icon.svg" : "/images/play-icon.svg"} height={40} width={40} alt="previous icon" />
+                <Image src={isPlaying ? "/images/play-icon.svg" : "/images/pause-icon.svg"} height={40} width={40} alt="previous icon" />
               </button>
 
               <button onClick={() => { nextTrack() }} >
