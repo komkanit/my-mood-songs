@@ -22,7 +22,7 @@ export default function Mood({feeling}: { feeling: CustomFeelingType }) {
     useEffect(() => {
         setTimeout(() => {
             setOpacity('opacity-100')
-        }, random(0, 3000 + (feeling.set * 300)))
+        }, random(0, 2000 + (feeling.set * 300)))
     }, [])
 
     const onClick = () => {
@@ -37,7 +37,7 @@ export default function Mood({feeling}: { feeling: CustomFeelingType }) {
 
     return (
         <div onClick={onClick} className={`absolute cursor-pointer ${zIndex}`} key={feeling.feeling} style={{top: feeling.y, left: feeling.x, transform: 'translate(-50%, 0%)'}}>
-            <div className={`${scale} w-${opacity} transition ${duration} ease-in-out ${transitionPage ? '' : 'hover:scale-125'} rounded-full ${feeling.colors[randomNumber()]} ${width} ${height} flex justify-center items-center`}>
+            <div className={`${scale} ${opacity} transition-all ${duration} ease-in-out ${transitionPage ? '' : 'hover:scale-125'} rounded-full ${feeling.colors[randomNumber()]} ${width} ${height} flex justify-center items-center`}>
                 <span className="font-bold">{feeling.feeling}</span>
             </div>
         </div>
