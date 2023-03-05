@@ -2,14 +2,13 @@ import { useEffect, useState } from "react"
 import { MoodConfigValue, moodHelper } from "../moodHelper";
 import { spotifyClient, SpotifyTrack } from "../spotifyClient"
 
-export const useRecommendedTracks = (mood: MoodConfigValue) => {
+export const useRecommendedTracks = (mood: MoodConfigValue | null) => {
   const [recommendedTracks, setRecommendedTracks] = useState<SpotifyTrack[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  const getUserTopTracksAsync = spotifyClient.getUserTopItems('tracks', 'medium_term', 7);
-  const getUserTopArtistsAsync = spotifyClient.getUserTopItems('artists', 'medium_term', 7);
-
   useEffect(() => {
+    const getUserTopTracksAsync = spotifyClient.getUserTopItems('tracks', 'medium_term', 7);
+    const getUserTopArtistsAsync = spotifyClient.getUserTopItems('artists', 'medium_term', 7);
     Promise.all([getUserTopTracksAsync, getUserTopArtistsAsync]).then((values) => {
       const userTopTracks = values[0];
       const userTopArtists = values[1];
@@ -25,8 +24,7 @@ export const useRecommendedTracks = (mood: MoodConfigValue) => {
         seed_artists: userTopArtists.items.slice(0, 5).map((artist: any) => artist.id),
         seed_genres: seedGenres,
         limit: 20,
-        ...mood.spotifyConfig,
-
+        ...mood?.spotifyConfig,
       }).then((response) => {
         setRecommendedTracks(response.tracks);
         setIsLoading(false);

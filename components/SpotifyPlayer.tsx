@@ -2,35 +2,20 @@ import React, { useEffect } from 'react'
 import { spotifyClient, SpotifyTrack } from '../lib/spotifyClient'
 import { useSpotifyPlayer } from '../lib/hook/useSpotifyPlayer'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 
 const SpotifyPlayer = (props: { currentTrack: SpotifyTrack | null, playlist: SpotifyTrack[], setCurrentTrack: React.Dispatch<React.SetStateAction<SpotifyTrack | null>> }) => {
     const { currentTrack } = props
-    const {player, deviceId, isActive} = useSpotifyPlayer();
-    const [isPlaying, setIsPlaying] = React.useState(false)
-    const router = useRouter();
-
-    useEffect(() => {
-      const handleRouteChange = () => {
-        console.log('handleRouteChange')
-        player.pause();
-      }
-
-      router.events.on('routeChangeStart', handleRouteChange)
-
-      // If the component is unmounted, unsubscribe
-      // from the event with the `off` method:
-      return () => {
-        router.events.off('routeChangeStart', handleRouteChange)
-      }
-    }, [ player ]);
+    const {player, deviceId, isActive, isPlaying} = useSpotifyPlayer();
 
     useEffect(() => {
       if (currentTrack && isActive && deviceId) {
         spotifyClient.playSpotifyUrl([currentTrack.uri], deviceId)
-        setIsPlaying(true)
+        .then(() => {
+          player.togglePlay();
+        })
       }
     }, [currentTrack, isActive, deviceId])
+
     const nextTrack = () => {
       const currentIndex = props.playlist.findIndex((track) => track.id === currentTrack?.id)
       const nextTrack = props.playlist[currentIndex === props.playlist.length - 1 ? 0 : currentIndex + 1]
@@ -46,11 +31,9 @@ const SpotifyPlayer = (props: { currentTrack: SpotifyTrack | null, playlist: Spo
       }
     }
     const togglePlay = () => {
-      if (!currentTrack) {
-        props.setCurrentTrack(props.playlist[0]);
+      if (currentTrack && deviceId) {
+        player.togglePlay();
       }
-      player.togglePlay();
-      setIsPlaying(!isPlaying);
     }
 
 

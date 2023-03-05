@@ -28,6 +28,49 @@ export type SpotifyTrack = {
 }
 
 export const spotifyClient = {
+    getAvailableDevices: async () => {
+        const accessToken = getCookie('accessToken');
+        try {
+            const response = await axios.get('https://api.spotify.com/v1/me/player/devices', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            });
+            console.log('availableDevice', response.data)
+            return response.data
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    resumeSpotifyPlayback: async (deviceId: string) => {
+        const accessToken = getCookie('accessToken');
+        try {
+            const response = await axios.put(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            });
+            return response.data
+        } catch (error) {
+              console.log(error)
+        }
+    },
+    pauseSpotifyPlayback: async (deviceId: string) => {
+        const accessToken = getCookie('accessToken');
+        try {
+            const response = await axios.put(`https://api.spotify.com/v1/me/player/pause?device_id=${deviceId}`, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            });
+            return response.data
+        } catch (error) {
+              console.log(error)
+        }
+    },
     playSpotifyUrl: async (uris: string[], deviceId: string) => {
         const accessToken = getCookie('accessToken');
         try {
