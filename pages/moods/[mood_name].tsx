@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = asyn
 const MoodPage = () => {
   const router = useRouter()
   const { mood_name } = router.query
-  const mood = moodHelper.getMood(mood_name as string);
+  const mood = moodHelper.getMoodByFeeling(mood_name as string);
   const { recommendedTracks, isLoading } = useRecommendedTracks(mood);
   const [currentTrack, setCurrentTrack] = useState<SpotifyTrack | null>(null);
   const [currentMenu, setCurrentMenu] = useState<SpotifyTrack | null>(null)
@@ -62,12 +62,12 @@ const MoodPage = () => {
           {
             userImage && <Image className="rounded-full" src={userImage} width={100} height={100} alt="user profile" />
           }
-          <div className={`w-12 h-12 rounded-full ${mood.colors[2]} absolute -right-2 -bottom-2`}></div>
+          <div className={`w-12 h-12 rounded-full ${mood?.colors[2]} absolute -right-2 -bottom-2`}></div>
         </div>
       </div>
       <h1 className="text-center text-2xl font-bold mt-2">{mood_name}</h1>
       <SpotifyPlayer playlist={recommendedTracks} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
-      <div className={`${mood.colors[2]} p-5`}>
+      <div className={`${mood?.colors[2]} p-5`}>
         {
             recommendedTracks.map((track) => (
                 <div key={track.id} className="pb-5">
