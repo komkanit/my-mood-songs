@@ -81,6 +81,13 @@ const mood: MoodConfig = {
     },
 }
 export const moodHelper = {
+    getMoodByFeeling: (feeling: string) => {
+        const moodId = Object.keys(mood).find((moodId) => mood[moodId].feelings.includes(feeling));
+        if (!moodId) {
+            return null;
+        }
+        return mood[moodId];
+    },
     getMood: (moodId: string) => {
         return mood[moodId];
     },

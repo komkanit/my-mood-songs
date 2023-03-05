@@ -31,7 +31,7 @@ export default function Mood({feeling}: { feeling: CustomFeelingType }) {
         setZIndex('z-10')
         setScale('scale-250')
         setTimeout(() => {
-            router.push(`/moods/${feeling.mood}`)
+            router.push(`/moods/${feeling.feeling}`)
         }, 700)
     }
 

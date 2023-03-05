@@ -37,12 +37,13 @@ export default function Index(props: { isLogin: boolean }) {
         setGroupedFeelings(g)
     }, [])
     const groupFeelings = (feelings: FeelingType[]) => {
-        const availableTailwindClass = ['w-28', 'w-32', 'w-36', 'h-28', 'h-32', 'h-36']
+        const availableTailwindClass = ['w-28', 'w-32', 'w-36', 'w-40', 'h-28', 'h-32', 'h-36', 'h-40']
         const availableSizes = ['28', '32']
         const groupSize = 6
         const groups = [];
         for (let i = 0; i < feelings.length; i += groupSize) {
-            const sizes = ['28', '28', '32', '32', '36', availableSizes[random(0, availableSizes.length - 1)]]
+            // const sizes = ['28', '28', '32', '32', '36', availableSizes[random(0, availableSizes.length - 1)]]
+            const sizes = ['32', '32', '36', '36', '36', '40']
             const x = ['5%', '40%', '85%', '15%', '60%', '95%']
             const y = ['3%', '0%', '2%', '60%', '45%', '60%']
             const randomSizes = shuffle(sizes);
