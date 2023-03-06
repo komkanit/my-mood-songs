@@ -67,10 +67,10 @@ const MoodPage = () => {
       </div>
       <h1 className="text-center text-2xl font-bold mt-2">{mood_name}</h1>
       <SpotifyPlayer playlist={recommendedTracks} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
-      <div className={`${mood?.colors[2]} p-5`}>
+      <div className={`${mood?.colors[2]}`}>
         {
             recommendedTracks.map((track) => (
-                <div key={track.id} className="pb-5">
+                <div key={track.id} className={`py-4 px-4 ${track.id === currentTrack?.id ? "bg-gray-900/30" : ""}`}>
                   <Track track={track} onClick={(track) => setCurrentTrack(track)} onMenuClick={onMenuClick} showMenu={track.id === currentMenu?.id} />
                 </div>
             ))

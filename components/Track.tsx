@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { SpotifyTrack } from "../lib/spotifyClient";
 
-export default function Track(props: { track: SpotifyTrack, onClick: (track: SpotifyTrack) => void, onMenuClick: (track: SpotifyTrack) => void, showMenu: boolean}) {
+export default function Track(props: {track: SpotifyTrack, onClick: (track: SpotifyTrack) => void, onMenuClick: (track: SpotifyTrack) => void, showMenu: boolean}) {
     const audioRef = useRef(null) as any;
   
     const playMusic = () => {
@@ -43,7 +43,7 @@ export default function Track(props: { track: SpotifyTrack, onClick: (track: Spo
         <audio ref={audioRef} src={props.track.preview_url} playsInline />
         <div className="flex">
             <Image
-                className="mr-3"
+                className="mr-3 cursor-pointer"
                 onClick={() => props.onClick(props.track)}
                 height={130}
                 width={130}

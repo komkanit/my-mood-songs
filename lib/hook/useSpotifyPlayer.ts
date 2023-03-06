@@ -9,8 +9,8 @@ export const useSpotifyPlayer = () => {
     let shouldInitSpotifyPlayer = useRef<boolean>(true);
     let playerRef = useRef<any>(null);
     useEffect(() => {
-      if (!shouldInitSpotifyPlayer.current) {
-        shouldInitSpotifyPlayer.current = true;
+      if (shouldInitSpotifyPlayer.current) {
+        shouldInitSpotifyPlayer.current = false;
         const script = document.createElement("script");
         script.src = "https://sdk.scdn.co/spotify-player.js";
         script.async = true;
