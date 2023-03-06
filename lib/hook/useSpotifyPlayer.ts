@@ -6,48 +6,49 @@ export const useSpotifyPlayer = () => {
     const [deviceId, setDeviceId] = useState<string | null>(null);
     const [isActive, setActive] = useState<boolean>(false);
     const [isPlaying, setPlaying] = useState<boolean>(false);
-    let shouldInitSpotifyPlayer = useRef<boolean>(false);
+    let shouldInitSpotifyPlayer = useRef<boolean>(true);
     let playerRef = useRef<any>(null);
     useEffect(() => {
-      if (shouldInitSpotifyPlayer.current) {
-        window.onbeforeunload = function() {
-          console.log('onbeforeunload');
-          if (playerRef.current) {
-            playerRef.current.pause();
-            playerRef.current.disconnect();
-          }
-        };
-
-        shouldInitSpotifyPlayer.current = false;
+      if (!shouldInitSpotifyPlayer.current) {
+        shouldInitSpotifyPlayer.current = true;
         const script = document.createElement("script");
         script.src = "https://sdk.scdn.co/spotify-player.js";
         script.async = true;
         document.body.appendChild(script);
-        (window as any).onSpotifyWebPlaybackSDKReady = () => {
-          const token = getCookie('accessToken');
-          const player = new (window as any).Spotify.Player({
-              name: 'Web Playback SDK',
-              getOAuthToken: (cb: any) => { cb(token); },
-              volume: 0.5
-          })
-          playerRef.current = player
-          setCurrentPlayer(player)
-          player.addListener('ready', ({ device_id }: { device_id: string }) => {
-            console.log('Ready with Device ID', device_id);
-            setDeviceId(device_id)
-            setActive(true)
-          });
 
-          player.addListener('not_ready', ({ device_id }: { device_id: string }) => {
-              console.log('Device ID has gone offline', device_id);
-              setDeviceId(null)
-              setActive(false)
-          })
-          player.addListener('player_state_changed', (state: any) => {
-              setPlaying(!state.paused)
-          })
-          player.connect()
+      }
+      window.onbeforeunload = function() {
+        console.log('onbeforeunload');
+        if (playerRef.current) {
+          playerRef.current.pause();
+          playerRef.current.disconnect();
         }
+      };
+
+      (window as any).onSpotifyWebPlaybackSDKReady = () => {
+        const token = getCookie('accessToken');
+        const player = new (window as any).Spotify.Player({
+            name: 'Web Playback SDK',
+            getOAuthToken: (cb: any) => { cb(token); },
+            volume: 0.5
+        })
+        playerRef.current = player
+        setCurrentPlayer(player)
+        player.addListener('ready', ({ device_id }: { device_id: string }) => {
+          console.log('Ready with Device ID', device_id);
+          setDeviceId(device_id)
+          setActive(true)
+        });
+
+        player.addListener('not_ready', ({ device_id }: { device_id: string }) => {
+            console.log('Device ID has gone offline', device_id);
+            setDeviceId(null)
+            setActive(false)
+        })
+        player.addListener('player_state_changed', (state: any) => {
+            setPlaying(!state.paused)
+        })
+        player.connect()
       }
       return () => {
         shouldInitSpotifyPlayer.current = true;
