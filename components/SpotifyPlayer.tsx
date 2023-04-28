@@ -5,14 +5,20 @@ import Image from 'next/image'
 
 const SpotifyPlayer = (props: { currentTrack: SpotifyTrack | null, playlist: SpotifyTrack[], setCurrentTrack: React.Dispatch<React.SetStateAction<SpotifyTrack | null>> }) => {
     const { currentTrack } = props
-    const {player, deviceId, isActive, isPlaying} = useSpotifyPlayer();
+    const {deviceId, isActive, isPlaying, togglePlay} = useSpotifyPlayer();
+    const ignoreFirstRender = React.useRef(true);
 
     useEffect(() => {
-      if (currentTrack && isActive && deviceId) {
-        spotifyClient.playSpotifyUrl([currentTrack.uri], deviceId)
-        .then(() => {
-          player.togglePlay();
-        })
+      if (!ignoreFirstRender.current) {
+        if (currentTrack && isActive && deviceId) {
+          spotifyClient.playSpotifyUrl([currentTrack.uri], deviceId)
+          .then(() => {
+            togglePlay();
+          })
+        }
+      }
+      return () => {
+        ignoreFirstRender.current = false;
       }
     }, [currentTrack, isActive, deviceId])
 
@@ -30,12 +36,6 @@ const SpotifyPlayer = (props: { currentTrack: SpotifyTrack | null, playlist: Spo
         props.setCurrentTrack(previousTrack)
       }
     }
-    const togglePlay = () => {
-      if (currentTrack && deviceId) {
-        player.togglePlay();
-      }
-    }
-
 
     return (
       <div className='my-5'>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { moodHelper } from '../../lib/moodHelper'
@@ -35,16 +35,22 @@ const MoodPage = () => {
   const [currentTrack, setCurrentTrack] = useState<SpotifyTrack | null>(null);
   const [currentMenu, setCurrentMenu] = useState<SpotifyTrack | null>(null)
   const [userImage, setUserImage] = useState<string | null>(null)
+  const shouldCallgetCurrentUser = useRef(true);
 
   useEffect(() => {
     if (!mood) {
       router.push('/moods');
     }
-    spotifyClient.getCurrentUser()
-    .then((response) => {
-      const user = response
-      setUserImage(user.images[0].url)
-    })
+    if (shouldCallgetCurrentUser.current) {
+      spotifyClient.getCurrentUser()
+      .then((response) => {
+        const user = response
+        setUserImage(user.images[0].url)
+      })
+    }
+    return () => {
+      shouldCallgetCurrentUser.current = false;
+    }
   }, []);
 
   const onMenuClick = (track: SpotifyTrack) => {
@@ -53,6 +59,9 @@ const MoodPage = () => {
     } else {
       setCurrentMenu(track);
     }
+  }
+  const onTrackClick = (track: SpotifyTrack) => {
+    setCurrentTrack(track)
   }
 
   return (
@@ -71,7 +80,7 @@ const MoodPage = () => {
         {
             recommendedTracks.map((track) => (
                 <div key={track.id} className={`py-4 px-4 ${track.id === currentTrack?.id ? "bg-gray-900/30" : ""}`}>
-                  <Track track={track} onClick={(track) => setCurrentTrack(track)} onMenuClick={onMenuClick} showMenu={track.id === currentMenu?.id} />
+                  <Track track={track} onClick={onTrackClick} onMenuClick={onMenuClick} showMenu={track.id === currentMenu?.id} />
                 </div>
             ))
         }
