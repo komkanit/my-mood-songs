@@ -9,6 +9,7 @@ import Track from '../../components/Track'
 import { spotifyClient, SpotifyTrack } from '../../lib/spotifyClient'
 import Image from 'next/image'
 import { useSpotifyPlayer } from '../../lib/hook/useSpotifyPlayer'
+import AddToPlayList from '../../components/AddToPlayList'
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -29,13 +30,13 @@ export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = asyn
 
 const MoodPage = () => {
   const router = useRouter()
-  const { mood_name } = router.query
-  const mood = moodHelper.getMoodByFeeling(mood_name as string);
+  const mood_name = router.query.mood_name as string
+  const mood = moodHelper.getMoodByFeeling(mood_name);
   const { recommendedTracks, isLoading } = useRecommendedTracks(mood);
   const [currentTrack, setCurrentTrack] = useState<SpotifyTrack | null>(null);
-  const [currentMenu, setCurrentMenu] = useState<SpotifyTrack | null>(null)
-  const [userImage, setUserImage] = useState<string | null>(null)
+  const [user, setUser] = useState<any | null>(null)
   const shouldCallgetCurrentUser = useRef(true);
+  const userImage = user?.images[0].url;
 
   useEffect(() => {
     if (!mood) {
@@ -45,7 +46,7 @@ const MoodPage = () => {
       spotifyClient.getCurrentUser()
       .then((response) => {
         const user = response
-        setUserImage(user.images[0].url)
+        setUser(user)
       })
     }
     return () => {
@@ -53,13 +54,6 @@ const MoodPage = () => {
     }
   }, []);
 
-  const onMenuClick = (track: SpotifyTrack) => {
-    if (currentMenu === track) {
-      setCurrentMenu(null);
-    } else {
-      setCurrentMenu(track);
-    }
-  }
   const onTrackClick = (track: SpotifyTrack) => {
     setCurrentTrack(track)
   }
@@ -75,12 +69,15 @@ const MoodPage = () => {
         </div>
       </div>
       <h1 className="text-center text-2xl font-bold mt-2">{mood_name}</h1>
+      {
+        user && false && <AddToPlayList moodName={mood_name} tracks={recommendedTracks} userId={user.id} />
+      }
       <SpotifyPlayer playlist={recommendedTracks} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
       <div className={`${mood?.colors[2]}`}>
         {
             recommendedTracks.map((track) => (
                 <div key={track.id} className={`py-4 px-4 ${track.id === currentTrack?.id ? "bg-gray-900/30" : ""}`}>
-                  <Track track={track} onClick={onTrackClick} onMenuClick={onMenuClick} showMenu={track.id === currentMenu?.id} />
+                  <Track track={track} onClick={onTrackClick} />
                 </div>
             ))
         }

@@ -1,10 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { SpotifyTrack } from "../lib/spotifyClient";
+import { useClickOutside } from "../lib/hook/useClickOutside";
 
-export default function Track(props: {track: SpotifyTrack, onClick: (track: SpotifyTrack) => void, onMenuClick: (track: SpotifyTrack) => void, showMenu: boolean}) {
+export default function Track(props: {track: SpotifyTrack, onClick: (track: SpotifyTrack) => void}) {
     const audioRef = useRef(null) as any;
+    const menuRef = useRef(null) as any;
+    const [showMenu, setShowMenu] = useState(false);
+    useClickOutside(menuRef, () => setShowMenu(false));
   
     const playMusic = () => {
         if (!props.track.preview_url) {
@@ -55,9 +59,9 @@ export default function Track(props: {track: SpotifyTrack, onClick: (track: Spot
                 <p className="pt-2 text-theme-text-grey">{props.track.artists.map((a) => a.name).join(', ')}</p>
             </div>
             <div className="mt-5 relative">
-                <span className={`text-2xl ${props.showMenu ? "text-theme-green" : ""} cursor-pointer`} onClick={() => props.onMenuClick(props.track)}>...</span>
+                <span className={`text-2xl ${showMenu ? "text-theme-green" : ""} cursor-pointer`} onClick={() => setShowMenu(true)}>...</span>
                 {
-                    props.showMenu && <div className="bg-theme-green absolute right-0 w-40 p-2">
+                    showMenu && <div ref={menuRef} className="bg-theme-green absolute right-0 w-40 p-2">
                         <span className="flex items-center text-white">
                             <Image className="inline-block mr-3" src="/images/spotify-white.svg" height={20} width={20} alt="open in spority" />
                             <Link target="_blank" href={props.track.external_urls.spotify}>Open in Spotify</Link>

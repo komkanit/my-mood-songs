@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { random } from "../../lib/helper";
 import { CustomFeelingType } from "../../pages/moods";
+import Image from "next/image";
 
 const randomNumber = () => {
     const numbers = [300, 400, 500, 600, 700];
@@ -18,6 +19,7 @@ export default function Mood({feeling}: { feeling: CustomFeelingType }) {
     const [scale, setScale] = useState('')
     const router = useRouter();
     const [transitionPage, setTransitionPage] = useState(false);
+    const [isHover, setIsHover] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
@@ -34,11 +36,17 @@ export default function Mood({feeling}: { feeling: CustomFeelingType }) {
             router.push(`/moods/${feeling.feeling}`)
         }, 700)
     }
+    const imageUrl = `/images/mood_emoji/${feeling.feeling.toLocaleLowerCase()}.png`;
 
     return (
-        <div onClick={onClick} className={`absolute cursor-pointer ${zIndex}`} key={feeling.feeling} style={{top: feeling.y, left: feeling.x, transform: 'translate(-50%, 0%)'}}>
-            <div className={`${scale} ${opacity} transition-all ${duration} ease-in-out ${transitionPage ? '' : 'hover:scale-125'} rounded-full ${feeling.colors[randomNumber()]} ${width} ${height} flex justify-center items-center`}>
-                <span className="font-bold">{feeling.feeling}</span>
+        <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} onClick={onClick} className={`absolute cursor-pointer ${zIndex}`} key={feeling.feeling} style={{top: feeling.y, left: feeling.x, transform: 'translate(-50%, 0%)'}}>
+            <div className={`${scale} ${opacity} transition-all ${duration} ease-in-out ${transitionPage ? '' : 'hover:scale-125'} rounded-full ${feeling.colors[0]} ${width} ${height} flex justify-center items-center`}>
+                {
+                    isHover ?
+                    <span className="font-bold">{feeling.feeling}</span>
+                    :
+                    <Image src={imageUrl} width="50" height="50" alt={feeling.feeling} />
+                }
             </div>
         </div>
     )

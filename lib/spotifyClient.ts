@@ -28,6 +28,40 @@ export type SpotifyTrack = {
 }
 
 export const spotifyClient = {
+    createPlaylist: async (userId: string, name: string, description: string, isPublic: boolean) => {
+        const accessToken = getCookie('accessToken');
+        try {
+            const response = await axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+                name: name,
+                description: description,
+                public: isPublic
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    addItemsToPlaylist: async (playlistId: string, uris: string[]) => {
+        const accessToken = getCookie('accessToken');
+        try {
+            const response = await axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+                uris: uris,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.log(error)
+        }
+    },
     getAvailableDevices: async () => {
         const accessToken = getCookie('accessToken');
         try {

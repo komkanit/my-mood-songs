@@ -20,8 +20,8 @@ const mood: MoodConfig = {
             min_tempo:160,
         },
         text: 'Happy',
-        feelings: ['Fullfilled', 'Happy', 'Joyfull', 'Good', 'Satisfied', 'Productive', 'Active', 'Focus', 'Motivated'],
-        colors: ['bg-green-300', 'bg-green-400', 'bg-green-500', 'bg-green-600', 'bg-green-700'],
+        feelings: ['Joyful', 'Olive', 'Pleased', 'Fullfilled', 'Happy', 'Good', 'Satisfied', 'Productive', 'Active', 'Focus', 'Motivated'],
+        colors: ['bg-theme-green'],
     },
     sad: {
         spotifyConfig: {
@@ -34,8 +34,8 @@ const mood: MoodConfig = {
         max_tempo:80,
         },
         text: 'sad',
-        feelings: ['Sad', 'Lonely', 'Depressed', 'Tired', 'Bored', 'Empty', 'Lazy', 'Sick'],
-        colors: ['bg-blue-300', 'bg-blue-400', 'bg-blue-500', 'bg-blue-600', 'bg-blue-700'],
+        feelings: ['Exhausted', 'Unmotivated', 'Tried', 'Disassociated', 'Sad', 'Depressed', 'Lazy', 'Sick'],
+        colors: ['bg-theme-blue'],
     },
     angry: {
         spotifyConfig: {
@@ -48,8 +48,8 @@ const mood: MoodConfig = {
             min_tempo:160,
         },
         text: 'angry',
-        feelings: ['Angry', 'Frustrated', 'Annoyed', 'Irritated', 'Anxious', 'Grumpy'],
-        colors: ['bg-red-300', 'bg-red-400', 'bg-red-500', 'bg-red-600', 'bg-red-700'],
+        feelings: ['Angry', 'Frustrated', 'Annoyed', 'Anxious', 'Grumpy'],
+        colors: ['bg-theme-red'],
     },
     normal: {
         spotifyConfig: {
@@ -62,8 +62,8 @@ const mood: MoodConfig = {
             Min_tempo:80,
         },
         text: 'normal',
-        feelings: ['Normal', 'Average', 'Neutral', 'Okay', 'Fine', 'Uneventful'],
-        colors: ['bg-orange-300', 'bg-orange-400', 'bg-orange-500', 'bg-orange-600', 'bg-orange-700'],
+        feelings: ['Normal', 'Average', 'Uneventful'],
+        colors: ['bg-theme-orange'],
     },
     unsure: {
         spotifyConfig: {
@@ -76,8 +76,8 @@ const mood: MoodConfig = {
             max_tempo:85,
         },
         text: 'unsure',
-        feelings: ['Unsure', 'Insecure', 'Nervous', 'Afraid', 'Worried', 'Concern', 'Troubled'],
-        colors: ['bg-yellow-300', 'bg-yellow-400', 'bg-yellow-500', 'bg-yellow-600', 'bg-yellow-700'],
+        feelings: ['Unsure', 'Insecure', 'Nervous', 'Afraid', 'Worried', 'Troubled'],
+        colors: ['bg-theme-yellow'],
     },
 }
 export const moodHelper = {
