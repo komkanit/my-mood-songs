@@ -10,7 +10,7 @@ const randomNumber = () => {
     return random(0, numbers.length - 1);
 }
 
-export default function Mood({feeling}: { feeling: CustomFeelingType }) {
+export default function Mood({feeling, index}: { index: number, feeling: CustomFeelingType }) {
     const [opacity, setOpacity] = useState('opacity-0')
     const [duration, setDuration] = useState('duration-300')
     const [width, setWidth] = useState(`w-${feeling.size}`);
@@ -20,11 +20,15 @@ export default function Mood({feeling}: { feeling: CustomFeelingType }) {
     const router = useRouter();
     const [transitionPage, setTransitionPage] = useState(false);
     const [isHover, setIsHover] = useState(false);
+    console.log(index)
 
     useEffect(() => {
+        // setTimeout(() => {
+        //     setOpacity('opacity-100')
+        // }, random(0, 2000 + (feeling.set * 300)))
         setTimeout(() => {
             setOpacity('opacity-100')
-        }, random(0, 2000 + (feeling.set * 300)))
+        }, 300 + (index * 300))
     }, [])
 
     const onClick = () => {
@@ -39,7 +43,13 @@ export default function Mood({feeling}: { feeling: CustomFeelingType }) {
     const imageUrl = `/images/mood_emoji/${feeling.feeling.toLocaleLowerCase()}.png`;
 
     return (
-        <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} onClick={onClick} className={`absolute cursor-pointer ${zIndex}`} key={feeling.feeling} style={{top: feeling.y, left: feeling.x, transform: 'translate(-50%, 0%)'}}>
+        <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} onClick={onClick}
+            // className={`absolute cursor-pointer ${zIndex}`} key={feeling.feeling}
+            // style={{
+            //     top: feeling.y, left: feeling.x, transform: 'translate(-50%, 0%)'}
+            // }
+            className="p-1"
+            >
             <div className={`${scale} ${opacity} transition-all ${duration} ease-in-out ${transitionPage ? '' : 'hover:scale-125'} rounded-full ${feeling.colors[0]} ${width} ${height} flex justify-center items-center`}>
                 {
                     isHover ?

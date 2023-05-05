@@ -11,6 +11,7 @@ export type CustomFeelingType = FeelingType & {
     y: string;
     set: number;
 }
+const groupSize = 5
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -53,8 +54,8 @@ const Title = () => {
     return (
         <div className={`${transitionClass} ${classStatus} flex items-end justify-center`}>
             <div>
-                <p className="text-3xl font-bold text-theme-grey text-center mt-3">How are you feeling today?</p>
-                <p className="text-2xl text-center mb-3">Let your mood pick the music</p>
+                <p className="text-3xl font-bold text-theme-blue text-center mt-3 mb-1">How are you feeling <span className="text-4xl">today</span>?</p>
+                <p className="text-2xl text-center mb-3">Let your mood pick the <span className="text-3xl">music</span></p>
             </div>
         </div>
     );
@@ -78,11 +79,11 @@ export default function Index(props: { isLogin: boolean }) {
     const groupFeelings = (feelings: FeelingType[]) => {
         const availableTailwindClass = ['w-28', 'w-32', 'w-36', 'w-40', 'h-28', 'h-32', 'h-36', 'h-40']
         const availableSizes = ['28', '32']
-        const groupSize = 6
         const groups = [];
         for (let i = 0; i < feelings.length; i += groupSize) {
             // const sizes = ['28', '28', '32', '32', '36', availableSizes[random(0, availableSizes.length - 1)]]
-            const sizes = ['32', '32', '36', '36', '36', '40']
+            // const sizes = ['32', '32', '36', '36', '36', '40']
+            const sizes = ['32', '32', '32', '32', '32', '32']
             const x = ['5%', '40%', '85%', '15%', '60%', '95%']
             const y = ['3%', '0%', '2%', '63%', '45%', '60%']
             const randomSizes = shuffle(sizes);
@@ -107,8 +108,11 @@ export default function Index(props: { isLogin: boolean }) {
             <Title />
             :
             groupedFeelings.map((feelings, index) => (
-                <div className="flex flex-wrap justify-center relative w-full" style={{height: '280px'}} key={index}>
-                    { feelings.map((feeling) => <Mood key={feeling.feeling} feeling={feeling} />) }
+                // <div className="flex flex-wrap justify-center relative w-full" style={{height: '280px'}} key={index}>
+                //     { feelings.map((feeling) => <Mood key={feeling.feeling} feeling={feeling} />) }
+                // </div>
+                <div className="flex flex-wrap justify-center relative w-full" key={index}>
+                    { feelings.map((feeling, feelingIndex) => <Mood key={feeling.feeling} index={(index * groupSize) + (feelingIndex)} feeling={feeling} />) }
                 </div>
             ))
         }
