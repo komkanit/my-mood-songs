@@ -17,11 +17,21 @@ module.exports = {
         'theme-orange': '#F47D35',
       },
       scale: {
+        '110': '1.1',
         '250': '2.5',
       },
       height: {
         '30vh': '30vh',
         '40vh': '40vh',
+      },
+      animation: {
+        wiggle: 'wiggle 1.5s ease-in-out infinite',
+      },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(12deg) scale(1.1)' },
+          '50%': { transform: 'rotate(-12deg) scale(1)' },
+        }
       }
     },
   },

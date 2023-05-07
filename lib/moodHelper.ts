@@ -6,6 +6,7 @@ export type MoodConfigValue = {
     text: string
     feelings: string[]
     colors: string[]
+    textColors: string[]
 }
 export interface FeelingType {feeling: string, mood: string, colors: string[]}
 const mood: MoodConfig = {
@@ -22,6 +23,7 @@ const mood: MoodConfig = {
         text: 'Happy',
         feelings: ['Joyful', 'Olive', 'Pleased', 'Fullfilled', 'Happy', 'Good', 'Satisfied', 'Productive', 'Active', 'Focus', 'Motivated'],
         colors: ['bg-theme-green'],
+        textColors: ['text-theme-green'],
     },
     sad: {
         spotifyConfig: {
@@ -36,6 +38,7 @@ const mood: MoodConfig = {
         text: 'sad',
         feelings: ['Exhausted', 'Unmotivated', 'Tried', 'Disassociated', 'Sad', 'Depressed', 'Lazy', 'Sick'],
         colors: ['bg-theme-blue'],
+        textColors: ['text-theme-blue'],
     },
     angry: {
         spotifyConfig: {
@@ -50,6 +53,7 @@ const mood: MoodConfig = {
         text: 'angry',
         feelings: ['Angry', 'Frustrated', 'Annoyed', 'Anxious', 'Grumpy'],
         colors: ['bg-theme-red'],
+        textColors: ['text-theme-red'],
     },
     normal: {
         spotifyConfig: {
@@ -64,6 +68,7 @@ const mood: MoodConfig = {
         text: 'normal',
         feelings: ['Normal', 'Average', 'Uneventful'],
         colors: ['bg-theme-orange'],
+        textColors: ['text-theme-orange'],
     },
     unsure: {
         spotifyConfig: {
@@ -78,6 +83,7 @@ const mood: MoodConfig = {
         text: 'unsure',
         feelings: ['Unsure', 'Insecure', 'Nervous', 'Afraid', 'Worried', 'Troubled'],
         colors: ['bg-theme-yellow'],
+        textColors: ['text-theme-yellow'],
     },
 }
 export const moodHelper = {
