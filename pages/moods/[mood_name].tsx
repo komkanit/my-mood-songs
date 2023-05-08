@@ -105,7 +105,7 @@ const MoodPage = () => {
             userImage && <Image className="rounded-full" src={userImage} width={100} height={100} alt="user profile" />
           }
           <div className={`w-10 h-10 rounded-full ${mood?.colors[0]} absolute -right-2 -bottom-2 flex justify-center items-center`}>
-            <Image src={`/images/mood_emoji/${mood_name.toLocaleUpperCase()}.png`} width="20" height="20" alt="" />
+            <Image src={`/images/mood_emoji/${mood_name.toLocaleLowerCase()}.png`} width="20" height="20" alt="" />
           </div>
         </div>
       </div>
