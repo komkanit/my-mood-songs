@@ -1,46 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { Menu, Transition } from '@headlessui/react'
+import { useRef, useState, Fragment } from "react";
 import { SpotifyTrack } from "../lib/spotifyClient";
 import { useClickOutside } from "../lib/hook/useClickOutside";
 
 export default function Track(props: {track: SpotifyTrack, onClick: (track: SpotifyTrack) => void}) {
     const audioRef = useRef(null) as any;
-    const menuRef = useRef(null) as any;
-    const [showMenu, setShowMenu] = useState(false);
-    useClickOutside(menuRef, () => setShowMenu(false));
-  
-    const playMusic = () => {
-        if (!props.track.preview_url) {
-            return;
-        }
-        const promise: any = audioRef.current.play();
-        if (promise !== undefined) {
-            promise.then(() => {
-            // Autoplay started!
-            }).catch((error: any) => {
-                console.log(error)
-            // Autoplay was prevented.
-            // Show a "Play" button so that user can start playback.
-            });
-        }
-    };
-    const resetMusic = () => {
-        if (!props.track.preview_url) {
-            return;
-        }
-        audioRef.current.currentTime = 0;
-        const promise = audioRef.current.pause();
-        if (promise !== undefined) {
-            promise.then(() => {
-            // Autoplay started!
-            }).catch((error: any) => {
-                console.log(error)
-            // Autoplay was prevented.
-            // Show a "Play" button so that user can start playback.
-            });
-        }
-    }
 
     return (
       <div>
@@ -59,15 +25,27 @@ export default function Track(props: {track: SpotifyTrack, onClick: (track: Spot
                 <p className="pt-2 text-theme-text-grey">{props.track.artists.map((a) => a.name).join(', ')}</p>
             </div>
             <div className="mt-5 relative">
-                <span className={`text-2xl ${showMenu ? "text-theme-green" : ""} cursor-pointer`} onClick={() => setShowMenu(true)}>...</span>
-                {
-                    showMenu && <div ref={menuRef} className="bg-theme-green absolute right-0 w-40 p-2">
-                        <span className="flex items-center text-white">
-                            <Image className="inline-block mr-3" src="/images/spotify-white.svg" height={20} width={20} alt="open in spority" />
-                            <Link target="_blank" href={props.track.external_urls.spotify}>Open in Spotify</Link>
-                        </span>
-                    </div>
-                }
+                <Menu>
+                    <Menu.Button className="text-2xl cursor-pointer">...</Menu.Button>
+                    <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                    >
+                        <Menu.Items className="absolute right-0 w-40 p-2 bg-black">
+                            <Menu.Item>
+                                <span className="flex items-center text-white">
+                                    <Image className="inline-block mr-3" src="/images/spotify-icon.png" height={20} width={20} alt="open in spority" />
+                                    <Link target="_blank" href={props.track.external_urls.spotify}>Open in Spotify</Link>
+                                </span>
+                            </Menu.Item>
+                        </Menu.Items>
+                    </Transition>
+                </Menu>
             </div>
         </div>
       </div>

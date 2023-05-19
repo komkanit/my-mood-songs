@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { spotifyClient, SpotifyTrack } from "../lib/spotifyClient";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AddToPlayList(props: {moodName: string, tracks: SpotifyTrack[], userId: string}) {
     const [playListName, setPlayListName] = useState(`My ${props.moodName} mood`);
@@ -51,7 +52,10 @@ export default function AddToPlayList(props: {moodName: string, tracks: SpotifyT
                 </button>
               </>
               :
-              <button onClick={onClickCreateing} className="text-white bg-black px-5 py-1 rounded-full border-">create playlist</button>
+              <button onClick={onClickCreateing} className="text-white bg-black px-5 py-1 rounded-full border-">
+                <Image className="inline-block mr-2" src="/images/spotify-icon.png" width="20" height="20" alt="" />
+                save to playlist
+              </button>
             }
           </div>
         {
