@@ -91,7 +91,7 @@ export default function Index(props: { isLogin: boolean }) {
     }, [])
     
     return (
-    <div className="mt-0">
+    <div className="mt-0 px-2">
         {
             !isShow ?
             <Title />
