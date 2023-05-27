@@ -138,7 +138,7 @@ export const spotifyClient = {
     },
     getUserTopItems: async (type: 'artists' | 'tracks', time_range: string, limit?: number, offset?: number) => { 
         const params = new URLSearchParams({
-            time_range: time_range || 'medium_term',
+            time_range: time_range || 'short_term',
             limit: limit?.toString() || '20',
             offset: offset?.toString() || '0',
         })

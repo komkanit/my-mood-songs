@@ -44,7 +44,7 @@ const Title = () => {
         <Transition
             show={isShow}
             as={React.Fragment}
-            enter="transition-all duration-500"
+            enter="transition-all duration-1000"
             enterFrom="opacity-0 h-30vh"
             enterTo="opacity-100 h-40vh"
             leave="transition-all duration-1000"

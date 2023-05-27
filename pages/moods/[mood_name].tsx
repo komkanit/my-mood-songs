@@ -10,6 +10,7 @@ import { spotifyClient, SpotifyTrack } from '../../lib/spotifyClient'
 import Image from 'next/image'
 import { useSpotifyPlayer } from '../../lib/hook/useSpotifyPlayer'
 import AddToPlayList from '../../components/AddToPlayList'
+import { Transition } from '@headlessui/react'
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -29,34 +30,38 @@ export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = asyn
   }
 
 const Title = (props: {moodName: string, mood: MoodConfigValue | null}) => {
-  const [status, setStatus] = useState('idle');
-  useEffect(() => {
-      const timeoutId1 = setTimeout(() => {
-          setStatus('show');
-      }, 100)
-      const timeoutId2 = setTimeout(() => {
-          setStatus('hide')
-      }, 1500)
-      return () => {
-          clearTimeout(timeoutId1);
-          clearTimeout(timeoutId2);
-      }
-  }, []);
-  let classStatus = 'opacity-0';
-  if (status === 'show') {
-      classStatus = 'opacity-100 h-40vh';
-  } else if (status === 'hide') {
-      classStatus = 'opacity-0 h-30vh';
-  }
-  const transitionClass = 'transition-all ease-in-out duration-1000';
-  return (
-      <div className={`${transitionClass} ${classStatus} flex items-end justify-center`}>
-          <div>
-              <p className={`text-3xl font-bold text-center mt-3 mb-1`}>Let&apos;s see your</p>
-              <p className={`text-3xl font-bold ${props.mood?.textColors[0]} text-center mt-3 mb-1`}><span className="text-4xl">{props.moodName}</span> mood musics!</p>
-          </div>
-      </div>
-  );
+    const [isShow, setIsShow] = useState(false);
+    useEffect(() => {
+        const timeoutId1 = setTimeout(() => {
+            setIsShow(true)
+        }, 100)
+        const timeoutId2 = setTimeout(() => {
+            setIsShow(false)
+        }, 1500)
+        return () => {
+            clearTimeout(timeoutId1);
+            clearTimeout(timeoutId2);
+        }
+    }, []);
+    return (
+        <Transition
+            show={isShow}
+            as={React.Fragment}
+            enter="transition-all duration-1000"
+            enterFrom="opacity-0 h-40vh"
+            enterTo="opacity-100 h-40vh"
+            leave="transition-all duration-1000"
+            leaveFrom="opacity-100 h-40vh"
+            leaveTo="opacity-0 h-30vh"
+        >
+            <div className="flex items-end justify-center">
+              <div>
+                  <p className={`text-3xl font-bold text-center mt-3 mb-1`}>Let&apos;s see your</p>
+                  <p className={`text-3xl font-bold ${props.mood?.textColors[0]} text-center mt-3 mb-1`}><span className="text-4xl">{props.moodName}</span> mood musics!</p>
+              </div>
+            </div>
+        </Transition>
+    );
 };
 
 const MoodPage = () => {
@@ -83,7 +88,7 @@ const MoodPage = () => {
     }
     const timeoutId = setTimeout(() => {
         setIsShow(true);
-    }, 2000)
+    }, 2600)
     return () => {
       shouldCallgetCurrentUser.current = false;
       clearTimeout(timeoutId);

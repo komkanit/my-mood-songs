@@ -9,8 +9,8 @@ export const useRecommendedTracks = (mood: MoodConfigValue | null) => {
 
   useEffect(() => {
     if (shouldCallRecommendedTracks.current) {
-      const getUserTopTracksAsync = spotifyClient.getUserTopItems('tracks', 'medium_term', 7);
-      const getUserTopArtistsAsync = spotifyClient.getUserTopItems('artists', 'medium_term', 7);
+      const getUserTopTracksAsync = spotifyClient.getUserTopItems('tracks', 'short_term', 7);
+      const getUserTopArtistsAsync = spotifyClient.getUserTopItems('artists', 'short_term', 7);
       Promise.all([getUserTopTracksAsync, getUserTopArtistsAsync]).then((values) => {
         const userTopTracks = values[0];
         const userTopArtists = values[1];
