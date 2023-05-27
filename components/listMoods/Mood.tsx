@@ -47,7 +47,7 @@ export default function Mood({feeling, index}: { index: number, feeling: Feeling
             :
             <button
                 onClick={onMoodClick}
-                onTouchEnd={onMoodClick}
+                onTouchStart={onMoodClick}
                 className={`${enterAnimation} duration-500 hover:rotate-12 hover:scale-110 ${defaultClass}`}>
                 {
                     <Image src={imageUrl} width="50" height="50" alt={feeling.feeling} />
