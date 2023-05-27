@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 
 import { AppProps } from 'next/app';
+import { Analytics } from '@vercel/analytics/react';
 import Header from '../components/layout/Header';
 
 function App({ Component, pageProps }: AppProps) {
@@ -8,6 +9,7 @@ function App({ Component, pageProps }: AppProps) {
     <div className="max-w-lg mx-auto">
       <Header />
       <Component {...pageProps} />
+      <Analytics />
     </div>
   );
 
