@@ -40,7 +40,7 @@ const SpotifyPlayer = (props: { currentTrack: SpotifyTrack | null, playlist: Spo
     return (
       <div className='my-5'>
         {
-          isActive && <div className="text-center">
+          isActive ? <div className="text-center">
             <div className="mb-3">
               <p className={currentTrack ? "visible" : "invisible"}>
                 {currentTrack ? currentTrack?.name : "none"}
@@ -60,6 +60,7 @@ const SpotifyPlayer = (props: { currentTrack: SpotifyTrack | null, playlist: Spo
               </button>
             </div>
           </div>
+          : <div className="text-center animate-bounce"><p>Loading Web Playback SDK...</p></div>
         }
       </div>
     )

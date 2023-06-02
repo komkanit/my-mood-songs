@@ -6,7 +6,7 @@ import Header from '../components/layout/Header';
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="max-w-lg mx-auto bg-slate-100 min-h-screen">
       <Header />
       <Component {...pageProps} />
       <Analytics />
