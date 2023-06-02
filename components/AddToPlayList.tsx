@@ -30,7 +30,7 @@ export default function AddToPlayList(props: {moodName: string, tracks: SpotifyT
       setIsOpen(true);
       setTimeout(() => {
         inputRef.current.focus();
-      })
+      }, 200)
     }
     const onModalClose = () => {
       setIsOpen(false);
@@ -50,46 +50,51 @@ export default function AddToPlayList(props: {moodName: string, tracks: SpotifyT
   
     return (
       <>
-      <Dialog as="div" className="relative z-10" open={isOpen} onClose={onModalClose}>
-        <div className="fixed inset-0 bg-black bg-opacity-25" />
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all">
-              <Dialog.Title
-                as="h3"
-                className="text-lg font-medium leading-6 text-gray-900"
-              >
-                Save to Spotify playlist
-              </Dialog.Title>
-              <div className="mt-2">
-                <input disabled={createPlaylistStatus === 'creating'} ref={inputRef} className="border-2 rounded-md px-2 border-solid border-theme-grey outline-none w-full" value={playListName} onChange={e => setPlayListName(e.target.value)} />
-              </div>
-
-              <div className="mt-4 text-end">
-                <button
-                  disabled={createPlaylistStatus === 'creating'}
-                  type="button"
-                  className="inline-flex justify-center rounded-md border border-transparent bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  onClick={onSubmit}
+        <Dialog as="div" className="relative z-10" open={isOpen} onClose={onModalClose}>
+          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
                 >
-                {getSubmitButtonText()}
-                </button>
-              </div>
-            </Dialog.Panel>
+                  Save to Spotify playlist
+                </Dialog.Title>
+                <div className="mt-2">
+                  <input disabled={createPlaylistStatus === 'creating'} ref={inputRef} className="border-2 rounded-md px-2 border-solid border-theme-grey outline-none w-full" value={playListName} onChange={e => setPlayListName(e.target.value)} />
+                </div>
+
+                <div className="mt-4 text-end">
+                  <button
+                    disabled={createPlaylistStatus === 'creating'}
+                    type="button"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    onClick={onSubmit}
+                  >
+                  {getSubmitButtonText()}
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </div>
           </div>
-        </div>
-      </Dialog>
+        </Dialog>
         <div className="text-end mt-4 mr-2">
             <div className="flex justify-end">
-              <button onClick={onModalOpen} className="text-white bg-black px-5 py-1 rounded-full border-">
-                <Image className="inline-block mr-2" src="/images/spotify-icon.png" width="20" height="20" alt="" />
-                save to playlist
-              </button>
+              {
+                spotifyPlaylist ?
+                (<Link href={spotifyPlaylist} target="_blank" className="inline-block mt-1 mr-2">
+                  <button className="text-white bg-black px-5 py-1 rounded-full border-">
+                    Open Playlist
+                  </button>
+                </Link>)
+                :
+                <button onClick={onModalOpen} className="text-white bg-black px-5 py-1 rounded-full border-">
+                  <Image className="inline-block mr-2" src="/images/spotify-icon.png" width="20" height="20" alt="" />
+                  Open in Spotify
+                </button>
+              }
             </div>
-          {
-            spotifyPlaylist &&
-              <Link href={spotifyPlaylist} target="_blank" className="inline-block mt-1 mr-2">open playlist</Link>
-          }
         </div>
       </>
     );

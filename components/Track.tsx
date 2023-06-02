@@ -20,9 +20,9 @@ export default function Track(props: {track: SpotifyTrack, onClick: (track: Spot
                 src={props.track.album.images[0].url}
                 alt={props.track.album.name}
             />
-            <div className="flex-1">
-                <p className="pt-3 text-lg">{props.track.name}</p>      
-                <p className="pt-2 text-theme-text-grey">{props.track.artists.map((a) => a.name).join(', ')}</p>
+            <div className="flex-1 cursor-pointer" onClick={() => props.onClick(props.track)}>
+                <p className="pt-3 text-xl">{props.track.name}</p>      
+                <p className="pt-2 text-lg text-theme-text-grey">{props.track.artists.map((a) => a.name).join(', ')}</p>
             </div>
             <div className="mt-5 relative">
                 <Menu>
