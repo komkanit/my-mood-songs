@@ -11,6 +11,7 @@ import Image from 'next/image'
 import { useSpotifyPlayer } from '../../lib/hook/useSpotifyPlayer'
 import AddToPlayList from '../../components/AddToPlayList'
 import { Transition } from '@headlessui/react'
+import SupportUs from '../../components/SupportUs'
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -118,6 +119,7 @@ const MoodPage = () => {
       {
         user && <AddToPlayList moodName={mood_name} tracks={recommendedTracks} userId={user.id} />
       }
+      <SupportUs />
       <SpotifyPlayer playlist={recommendedTracks} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
       <div className={`${mood?.colors[0]}`}>
         {
