@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import { toPng, getFontEmbedCSS } from 'html-to-image';
+import { toPng, getFontEmbedCSS, toCanvas } from 'html-to-image';
 import download from 'downloadjs';
 import { SpotifyTrack } from "../lib/spotifyClient";
 
@@ -10,16 +10,19 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
         if (ref.current === null) {
         return
         }
-        const fontEmbedCss = await getFontEmbedCSS(ref.current);
+        toCanvas(ref.current, { includeQueryParams: true })
+        .then((canvas) => {
+            document.getElementById('canvas-container')?.appendChild(canvas);
+        })
 
     
-        toPng(ref.current, { includeQueryParams: true })
-        .then((dataUrl) => {
-            download(dataUrl, `my-${props.moodName}-name.png`)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        // toPng(ref.current, { includeQueryParams: true })
+        // .then((dataUrl) => {
+        //     download(dataUrl, `my-${props.moodName}-name.png`)
+        // })
+        // .catch((err) => {
+        //     console.log(err)
+        // })
     }, [ref])
     return (
     <>
@@ -42,6 +45,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
         })}
       </div>
       <button onClick={onButtonClick}>download</button>
+      <div id="canvas-container"></div>
     </> 
     );
 }
