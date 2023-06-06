@@ -29,7 +29,7 @@ export default function SupportUs() {
                         <div className="flex justify-center">
                             <Image src="/images/profile.jpeg" alt="" width="100" height="100" className="rounded-full" />
                         </div>
-                        <p className="my-2">Hello I'm Cal</p>
+                        <p className="my-2">Hello</p>
                         <Link className="inline-block" href="https://bmc.link/komkanit" target="_blank">
                             <button className="flex items-center rounded-lg pr-2 py-1 hover:shadow-md bg-buy-me-coffee text-black">
                                 <Image src="/images/bymecoffee.png" alt="" width="35" height="35" />
