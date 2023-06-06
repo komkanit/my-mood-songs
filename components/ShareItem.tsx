@@ -4,25 +4,27 @@ import download from 'downloadjs';
 import { SpotifyTrack } from "../lib/spotifyClient";
 
 export default function ShareItem (props: {moodName: string, recommendedTracks: SpotifyTrack[]}) {
-    const ref = useRef(null);
+    const ref = useRef(null) as any;
       
     const onButtonClick = useCallback(async () => {
         if (ref.current === null) {
-        return
+            return
         }
-        toCanvas(ref.current, { includeQueryParams: true })
-        .then((canvas) => {
-            document.getElementById('canvas-container')?.appendChild(canvas);
-        })
+        setTimeout(() => {
+            toCanvas(ref.current, { includeQueryParams: true })
+            .then((canvas) => {
+                document.getElementById('canvas-container')?.appendChild(canvas);
+            })
+            toPng(ref.current, { includeQueryParams: true })
+            .then((dataUrl) => {
+                download(dataUrl, `my-${props.moodName}-name.png`)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }, 5000)
 
     
-        // toPng(ref.current, { includeQueryParams: true })
-        // .then((dataUrl) => {
-        //     download(dataUrl, `my-${props.moodName}-name.png`)
-        // })
-        // .catch((err) => {
-        //     console.log(err)
-        // })
     }, [ref])
     return (
     <>
