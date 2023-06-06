@@ -13,7 +13,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
         const fontEmbedCss = await getFontEmbedCSS(ref.current);
 
     
-        toPng(ref.current, { cacheBust: true, fontEmbedCSS: fontEmbedCss })
+        toPng(ref.current, { includeQueryParams: true })
         .then((dataUrl) => {
             download(dataUrl, `my-${props.moodName}-name.png`)
         })
