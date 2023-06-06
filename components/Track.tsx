@@ -5,7 +5,7 @@ import { useRef, useState, Fragment } from "react";
 import { SpotifyTrack } from "../lib/spotifyClient";
 import { useClickOutside } from "../lib/hook/useClickOutside";
 
-export default function Track(props: {track: SpotifyTrack, onClick: (track: SpotifyTrack) => void}) {
+export default function Track(props: {noPreview?: boolean, track: SpotifyTrack, onClick: (track: SpotifyTrack) => void}) {
     const audioRef = useRef(null) as any;
 
     return (
@@ -21,7 +21,9 @@ export default function Track(props: {track: SpotifyTrack, onClick: (track: Spot
                 alt={props.track.album.name}
             />
             <div className="flex-1 cursor-pointer" onClick={() => props.onClick(props.track)}>
-                <p className="pt-3 text-xl">{props.track.name}</p>      
+                <p className="pt-3 text-xl">{props.track.name}
+                {props.noPreview && ' (No Preview Available)'}
+                </p>      
                 <p className="pt-2 text-lg text-theme-text-grey">{props.track.artists.map((a) => a.name).join(', ')}</p>
             </div>
             <div className="mt-5 relative">

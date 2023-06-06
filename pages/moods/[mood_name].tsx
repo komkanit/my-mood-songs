@@ -12,6 +12,7 @@ import { useSpotifyPlayer } from '../../lib/hook/useSpotifyPlayer'
 import AddToPlayList from '../../components/AddToPlayList'
 import { Transition } from '@headlessui/react'
 import SupportUs from '../../components/SupportUs'
+import Share from '../../components/Share'
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -75,6 +76,7 @@ const MoodPage = () => {
   const shouldCallgetCurrentUser = useRef(true);
   const [isShow, setIsShow] = useState(false);
   const userImage = user?.images[0].url;
+  const audioRef = useRef(null) as any;
 
   useEffect(() => {
     if (!mood) {
@@ -96,8 +98,20 @@ const MoodPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (currentTrack && currentTrack.preview_url && audioRef.current) {
+      audioRef.current.play()
+    } else if (audioRef.current) {
+      audioRef.current.pause()
+    }
+  }, [currentTrack]);
+
   const onTrackClick = (track: SpotifyTrack) => {
-    setCurrentTrack(track)
+    if (track.id === currentTrack?.id) {
+      setCurrentTrack(null)
+    } else {
+      setCurrentTrack(track)
+    }
   }
 
   return (
@@ -115,17 +129,26 @@ const MoodPage = () => {
           </div>
         </div>
       </div>
+      <audio ref={audioRef} src={currentTrack?.preview_url} playsInline />
       <h1 className="text-center text-2xl font-bold mt-2">{mood_name} mood!</h1>
+      <div className="flex justify-between mx-2 my-4">
+        {
+          user && <AddToPlayList moodName={mood_name} tracks={recommendedTracks} userId={user.id} />
+        }
+        <div className="flex">
+          <SupportUs />
+          <Share />
+        </div>
+      </div>
       {
-        user && <AddToPlayList moodName={mood_name} tracks={recommendedTracks} userId={user.id} />
+        false &&
+        <SpotifyPlayer playlist={recommendedTracks} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
       }
-      <SupportUs />
-      <SpotifyPlayer playlist={recommendedTracks} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
       <div className={`${mood?.colors[0]}`}>
         {
             recommendedTracks.map((track) => (
                 <div key={track.id} className={`py-4 px-4 ${track.id === currentTrack?.id ? "bg-gray-900/30" : ""}`}>
-                  <Track track={track} onClick={onTrackClick} />
+                  <Track noPreview={currentTrack?.id === track.id && !track.preview_url} track={track} onClick={onTrackClick} />
                 </div>
             ))
         }

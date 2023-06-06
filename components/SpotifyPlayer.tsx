@@ -43,7 +43,7 @@ const SpotifyPlayer = (props: { currentTrack: SpotifyTrack | null, playlist: Spo
           isActive ? <div className="text-center">
             <div className="mb-3">
               <p className={`currentTrack ? "visible" : "invisible" text-2xl`}>
-                {currentTrack ? currentTrack?.name : "none"}
+                {currentTrack ? currentTrack?.name : ""}
               </p>
             </div>
             <div className="flex items-center justify-center">
