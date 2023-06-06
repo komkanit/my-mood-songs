@@ -1,8 +1,10 @@
 import { Fragment, useState } from "react";
 import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
+import ShareItem from "./ShareItem";
+import { SpotifyTrack } from "../lib/spotifyClient";
 
-export default function Share() {
+export default function Share(props: {moodName: string, recommendedTracks: SpotifyTrack[]}) {
     const [isOpen, setIsOpen] = useState(false);
     return (
       <>
@@ -22,7 +24,7 @@ export default function Share() {
               >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <div>
-                    Hello
+                    <ShareItem {...props} />
                 </div>
               </Dialog.Panel>
               </Transition.Child>

@@ -137,7 +137,7 @@ const MoodPage = () => {
         }
         <div className="flex">
           <SupportUs />
-          <Share />
+          <Share moodName={mood_name} recommendedTracks={recommendedTracks} />
         </div>
       </div>
       {
