@@ -1,22 +1,25 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { toPng, getFontEmbedCSS, toCanvas } from 'html-to-image';
 import download from 'downloadjs';
 import { SpotifyTrack } from "../lib/spotifyClient";
 
 export default function ShareItem (props: {moodName: string, recommendedTracks: SpotifyTrack[]}) {
     const ref = useRef(null) as any;
+    const [isLoading, setIsLoading] = useState(false);
       
     const onButtonClick = useCallback(async () => {
         if (ref.current === null) {
             return
         }
+        setIsLoading(true);
         setTimeout(() => {
-            toCanvas(ref.current, { includeQueryParams: true })
-            .then((canvas) => {
-                document.getElementById('canvas-container')?.appendChild(canvas);
-            })
+            // toCanvas(ref.current, { includeQueryParams: true })
+            // .then((canvas) => {
+            //     document.getElementById('canvas-container')?.appendChild(canvas);
+            // })
             toPng(ref.current, { includeQueryParams: true })
             .then((dataUrl) => {
+                setIsLoading(false);
                 download(dataUrl, `my-${props.moodName}-name.png`)
             })
             .catch((err) => {
@@ -46,7 +49,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
             )
         })}
       </div>
-      <button onClick={onButtonClick}>download</button>
+      <button disabled={isLoading} onClick={onButtonClick}>{isLoading ? 'loading...' : 'download'}</button>
       <div id="canvas-container"></div>
     </> 
     );
