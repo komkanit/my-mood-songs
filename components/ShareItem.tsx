@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { toPng, getFontEmbedCSS, toCanvas } from 'html-to-image';
+import { toPng } from 'html-to-image';
 import download from 'downloadjs';
 import { SpotifyTrack } from "../lib/spotifyClient";
 import { moodHelper } from "../lib/moodHelper";
@@ -39,19 +39,18 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
         setTimeout(() => {
             setStatus('downloading');
         }, 3000)
-        setTimeout(() => {
-            // toCanvas(ref.current, { includeQueryParams: true })
-            // .then((canvas) => {
-            //     document.getElementById('canvas-container')?.appendChild(canvas);
-            // })
-            toPng(ref.current, { includeQueryParams: true })
-            .then((dataUrl) => {
+        setTimeout(async () => {
+            try {
+                await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
+                await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
+                await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
+                await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
+                const dataUrl = await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 setStatus('idle');
-                download(dataUrl, `my-${props.moodName}-name.png`)
-            })
-            .catch((err) => {
+                download(dataUrl, `my-${props.moodName}-name.jpeg`)
+            } catch (err) {
                 console.log(err)
-            })
+            }
         }, 7000)
 
     
@@ -90,7 +89,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                 {props.recommendedTracks.slice(0, 4).map((track, index) => {
                     return (
                         <div key={track.id} className="w-20">
-                            <img src={track.album.images[0].url} alt="" />
+                            <img src={track.album.images[1].url} alt="" />
                         </div>
                     )
                 })}
@@ -103,7 +102,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                         <div key={track.id} className={`flex justify-between items-center px-2 pt-2 ml-12`}>
                             <div className="flex items-center">
                                 <div className="w-16 h-16">
-                                    <img src={track.album.images[0].url} alt="" />
+                                    <img src={track.album.images[2].url} alt="" />
                                 </div>
                                 <div className="ml-2">
                                     <p className="text-theme-grey text-lg">{track.name}</p>
