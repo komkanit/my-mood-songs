@@ -30,15 +30,15 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
     const title = `My ${props.moodName} mood`;
     const mood = moodHelper.getMoodByFeeling(props.moodName);
     const [status, setStatus] = useState<'idle'| 'downloading' | 'ready'>('idle');
-    const ignoreFirstRender = useRef(true);
+    const firstRender = useRef(true);
 
     useEffect(() => {
-      if (!ignoreFirstRender.current) {
+      if (firstRender.current) {
         onButtonClick();
 
       }
       return () => {
-        ignoreFirstRender.current = false;
+        firstRender.current = false;
       }
     }, []);
       
