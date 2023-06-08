@@ -45,7 +45,12 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                 await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 const dataUrl = await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 setStatus('idle');
-                download(dataUrl, `my-${props.moodName}-name.jpeg`)
+                const imageName = `my-${props.moodName}-name.png`;
+                // download(dataUrl, imageName);
+                var link = document.createElement('a');
+                link.download = imageName;
+                link.href = dataUrl;
+                link.click();
             } catch (err) {
                 console.log(err)
             }
