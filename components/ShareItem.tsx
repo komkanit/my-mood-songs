@@ -35,12 +35,10 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
         if (ref.current === null) {
             return
         }
-        setStatus('processing');
-        setTimeout(() => {
-            setStatus('downloading');
-        }, 3000)
+        setStatus('downloading');
         setTimeout(async () => {
             try {
+                await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
@@ -51,7 +49,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
             } catch (err) {
                 console.log(err)
             }
-        }, 7000)
+        }, 1000)
 
     
     }, [ref])
@@ -99,13 +97,13 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
             <div className="">
                 {props.recommendedTracks.slice(0, 4).map((track, index) => {
                     return (
-                        <div key={track.id} className={`flex justify-between items-center px-2 pt-2 ml-12`}>
+                        <div key={track.id} className={`flex justify-between items-center px-2 pt-2 ml-10`}>
                             <div className="flex items-center">
                                 <div className="w-16 h-16">
                                     <img src={track.album.images[2].url} alt="" />
                                 </div>
-                                <div className="ml-2">
-                                    <p className="text-theme-grey text-lg">{track.name}</p>
+                                <div className="ml-2 flex-1">
+                                    <p className="text-theme-grey text-lg">{track.name.split(' ').slice(0, 11).join(' ')}{track.name.split(' ').length > 10 ? '...' : ''}</p>
                                     <p className="text-black text-md">{track.artists[0].name}</p>
                                 </div>
                             </div>
@@ -113,7 +111,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                     )
                 })}
             </div>
-            <div className="flex justify-between items-center px-2 pt-2 ml-12">
+            <div className="flex justify-between items-center px-2 pt-2 ml-10">
                 <div className="flex items-center">
                     <div className="w-20 h-20 -ml-2">
                         <img src="/images/qr.png" alt="" />
@@ -128,9 +126,9 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
         </div>
       </div>
       <div className={`${mood?.colors[0]} -mt-4 pb-2 text-end pr-4`}>
-        <button className="text-theme-yellow px-3 py-1 flex ml-auto rounded-2xl bg-black shadow-md hover:bg-gray-800" disabled={status !== 'idle'} onClick={onButtonClick}>
+        <button className="text-theme-yellow px-4 py-2 flex ml-auto rounded-3xl bg-black shadow-md hover:bg-gray-800" disabled={status !== 'idle'} onClick={onButtonClick}>
             <Image className="mr-2 inline-block" src="/images/download.png" width="15" height="15" alt="" />
-            <span className="inline-block">
+            <span className="inline-block text-lg">
                 {getButtonText(status)}
             </span>
             </button>
