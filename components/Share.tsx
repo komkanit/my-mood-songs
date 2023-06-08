@@ -22,7 +22,7 @@ export default function Share(props: {moodName: string, recommendedTracks: Spoti
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-sm bg-white text-left align-middle shadow-xl transition-all">
                 <div>
                     <ShareItem {...props} />
                 </div>

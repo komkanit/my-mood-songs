@@ -26,6 +26,12 @@ module.exports = {
         '30vh': '30vh',
         '40vh': '40vh',
       },
+      width: {
+        '110': '110%'
+      },
+      margin: {
+        '-5p': '-5%'
+      },
       animation: {
         wiggle: 'wiggle 1.5s ease-in-out infinite',
       },

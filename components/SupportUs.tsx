@@ -23,7 +23,7 @@ export default function SupportUs() {
                 leaveTo="opacity-0 scale-95"
               >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-sm bg-white pb-6 text-left align-middle shadow-xl transition-all">
-                <div className="h-20 w-full bg-theme-blue"></div>
+                <div className="h-20 w-full bg-theme-bg-blue"></div>
                 <div className="-mt-14">
                     <div className="text-center">
                         <div className="flex justify-center">
