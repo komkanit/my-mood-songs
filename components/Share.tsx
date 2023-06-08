@@ -33,8 +33,9 @@ export default function Share(props: {moodName: string, recommendedTracks: Spoti
         </Dialog>
         </Transition>
         <div>
-            <button className="bg-black p-2 rounded-full hover:bg-gray-800" onClick={() => setIsOpen(true)}>
-                <Image src="/images/lucide_share.png" alt="" width="20" height="20" />
+            <button className="bg-black pt-2 pb-1 px-6 flex rounded-full hover:bg-gray-800" onClick={() => setIsOpen(true)}>
+                <Image className="mr-1" src="/images/lucide_share.png" alt="" width="20" height="20" />
+                <span className="text-theme-yellow">Share</span>
             </button>
         </div>
       </>

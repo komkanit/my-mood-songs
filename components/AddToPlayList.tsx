@@ -7,7 +7,7 @@ import * as Checkbox from '@radix-ui/react-checkbox';
 import { CheckIcon } from '@radix-ui/react-icons';
 
 export default function AddToPlayList(props: {moodName: string, tracks: SpotifyTrack[], userId: string}) {
-    const [playListName, setPlayListName] = useState(`My ${props.moodName} Beats`);
+    const [playListName, setPlayListName] = useState(`My ${props.moodName} mood`);
     const [spotifyPlaylist, setSpotifyPlaylist] = useState(null);
     const [createPlaylistStatus, setCreatePlaylistStatus] = useState<'idle' | 'creating' | 'created'>('idle'); // idle, creating, created
     const [isOpen, setIsOpen] = useState(false);
