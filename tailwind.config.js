@@ -6,6 +6,10 @@ module.exports = {
     "./lib/**/*.{js,ts}",
   ],
   theme: {
+    screens: {
+      'sm': '370px',
+      'md': '450px',
+    },
     extend: {
       colors: {
         'theme-bg-blue': "#017AFF",

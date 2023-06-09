@@ -7,7 +7,7 @@ import { FeelingType, moodHelper } from "../lib/moodHelper";
 import { Transition } from "@headlessui/react";
 
 
-const groupSize = 5
+const groupSize = 7
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -96,6 +96,16 @@ export default function Index(props: { isLogin: boolean }) {
             !isShow ?
             <Title />
             :
+                    // <div className="flex flex-wrap justify-center relative w-full">
+                    //     {
+                    //         groupedFeelings.map((feelings, index) => (
+                    //             // <div className="flex flex-wrap justify-center relative w-full" key={index}>
+                    //             //     { feelings.map((feeling, feelingIndex) => <Mood key={feeling.feeling} index={(index * groupSize) + (feelingIndex)} feeling={feeling} />) }
+                    //             // </div>
+                    //             feelings.map((feeling, feelingIndex) => <Mood key={feeling.feeling} index={(index * groupSize) + (feelingIndex)} feeling={feeling} />)
+                    //         ))
+                    //     }
+                    // </div>
                     groupedFeelings.map((feelings, index) => (
                         <div className="flex flex-wrap justify-center relative w-full" key={index}>
                             { feelings.map((feeling, feelingIndex) => <Mood key={feeling.feeling} index={(index * groupSize) + (feelingIndex)} feeling={feeling} />) }

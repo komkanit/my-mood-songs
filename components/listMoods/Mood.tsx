@@ -32,7 +32,11 @@ export default function Mood({feeling, index}: { index: number, feeling: Feeling
     }
     const enterAnimation = isHide ? `opacity-0 ${index % 2 === 0 ? 'rotate-12' : '-rotate-12'}` : 'opacity-100 rotate-0';
     const imageUrl = `/images/mood_emoji/${feeling.feeling.toLocaleLowerCase()}.png`;
-    const defaultClass = `cursor-pointer m-1 transition-all ease-in-out rounded-full ${feeling.colors[0]} w-32 h-32 flex justify-center items-center`
+    const defaultClass = `w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 1cursor-pointer m-1 transition-all ease-in-out rounded-full ${feeling.colors[0]} flex justify-center items-center`
+    // w-16
+    // w-20 -> 370
+    // w-24 -> 450
+
 
     return (
             isPreview ?
@@ -48,7 +52,7 @@ export default function Mood({feeling, index}: { index: number, feeling: Feeling
                 onClick={onMoodClick}
                 className={`${enterAnimation} duration-500 hover:rotate-12 hover:scale-110 ${defaultClass}`}>
                 {
-                    <Image src={imageUrl} width="50" height="50" alt={feeling.feeling} />
+                    <Image src={imageUrl} width="35" height="35" alt={feeling.feeling} />
                 }
             </button>
     )
