@@ -34,7 +34,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
 
     useEffect(() => {
       if (firstRender.current) {
-        onButtonClick();
+        // onButtonClick();
 
       }
       return () => {
@@ -49,6 +49,8 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
         onSetStatus('downloading');
         setTimeout(async () => {
             try {
+                await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
+                await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
@@ -124,9 +126,9 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                                         <div className="w-16 h-16">
                                             <img src={track.album.images[2].url} alt="" />
                                         </div>
-                                        <div className="ml-2 flex-1">
-                                            <p className="text-theme-grey text-sm sm:text-lg font-semibold">{track.name.split(' ').slice(0, 10).join(' ')}{track.name.split(' ').length > 10 ? '...' : ''}</p>
-                                            <p className="text-black text-xs sm:text-base">{track.artists[0].name}</p>
+                                        <div className="ml-2">
+                                            <p className="text-theme-grey w-full text-sm sm:text-lg font-semibold">{track.name.split(' ').slice(0, 10).join(' ')}{track.name.split(' ').length > 10 ? '...' : ''}</p>
+                                            <p className="text-black text-xs w-full sm:text-base">{track.artists[0].name}</p>
                                         </div>
                                     </div>
                                 </div>
