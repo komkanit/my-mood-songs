@@ -12,19 +12,32 @@ export default function Track(props: {noPreview?: boolean, track: SpotifyTrack, 
       <div>
         <audio ref={audioRef} src={props.track.preview_url} playsInline />
         <div className="flex">
-            <Image
-                className="mr-3 cursor-pointer"
-                onClick={() => props.onClick(props.track)}
-                height={130}
-                width={130}
-                src={props.track.album.images[0].url}
-                alt={props.track.album.name}
-            />
+            <div className="hidden sm:block">
+                <Image
+                    className="mr-3 cursor-pointer"
+                    onClick={() => props.onClick(props.track)}
+                    height={130}
+                    width={130}
+                    src={props.track.album.images[0].url}
+                    alt={props.track.album.name}
+                />
+            </div>
+            <div className="sm:hidden block">
+                <Image
+                    className="mr-3 cursor-pointer"
+                    onClick={() => props.onClick(props.track)}
+                    height={100}
+                    width={100}
+                    src={props.track.album.images[0].url}
+                    alt={props.track.album.name}
+                />
+
+            </div>
             <div className="flex-1 cursor-pointer" onClick={() => props.onClick(props.track)}>
-                <p className="pt-3 text-xl">{props.track.name}
+                <p className="pt-3 sm:text-xl text-lg">{props.track.name}
                 {props.noPreview && ' (No Preview Available)'}
                 </p>      
-                <p className="pt-2 text-lg text-theme-text-grey">{props.track.artists.map((a) => a.name).join(', ')}</p>
+                <p className="pt-2 sm:text-lg text-sm text-theme-text-grey">{props.track.artists.map((a) => a.name).join(', ')}</p>
             </div>
             <div className="mt-5 relative">
                 <Menu>

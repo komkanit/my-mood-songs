@@ -131,11 +131,11 @@ const MoodPage = () => {
       </div>
       <audio ref={audioRef} src={currentTrack?.preview_url} playsInline />
       <h1 className="text-center text-2xl font-bold mt-2">{mood_name} mood!</h1>
-      <div className="flex justify-between mx-2 my-4">
+      <div className="flex justify-between items-center mx-2 mt-4 mb-2">
         {
           user && <AddToPlayList moodName={mood_name} tracks={recommendedTracks} userId={user.id} />
         }
-        <div className="flex">
+        <div className="flex items-center">
           <SupportUs />
           <Share moodName={mood_name} recommendedTracks={recommendedTracks} />
         </div>

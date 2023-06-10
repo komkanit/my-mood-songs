@@ -7,8 +7,8 @@ import NextImage from "next/image";
 
 const Emoji = (props: {moodName: string, color?: string}) => {
     return (
-        <div className={`w-16 h-16 ${props.color} rounded-full flex items-center justify-center`}>
-            <img className="w-8 h-auto" src={`/images/mood_emoji/${props.moodName.toLocaleLowerCase()}.png`} alt="" />
+        <div className={`w-14 h-14 sm:w-16 sm:h-16 ${props.color} rounded-full flex items-center justify-center`}>
+            <img className="w-6 sm:w-8 h-auto" src={`/images/mood_emoji/${props.moodName.toLocaleLowerCase()}.png`} alt="" />
         </div>
     );
 }
@@ -114,7 +114,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                             )
                         })}
                     </div>
-                    <p className="text-center font-extrabold text-3xl mt-10">{title}</p>
+                    <p className="text-center font-extrabold text-2xl sm:text-3xl mt-10">{title}</p>
                     <p className="text-center mb-2 text-sm text-theme-grey">Personalized playlist based on your {props.moodName} mood</p>
                     <div className="">
                         {props.recommendedTracks.slice(0, 4).map((track, index) => {
@@ -126,7 +126,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                                         </div>
                                         <div className="ml-2 flex-1">
                                             <p className="text-theme-grey text-lg font-semibold">{track.name.split(' ').slice(0, 10).join(' ')}{track.name.split(' ').length > 10 ? '...' : ''}</p>
-                                            <p className="text-black text-md">{track.artists[0].name}</p>
+                                            <p className="text-black text-base">{track.artists[0].name}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                             </div>
                             <div className="ml-2">
                                 <p className="text-theme-grey text-lg font-semibold">Your playlist</p>
-                                <p className="text-black text-md">moodify-songs.vercel.app</p>
+                                <p className="text-black text-base">moodify-songs.vercel.app</p>
                             </div>
                         </div>
                     </div>
