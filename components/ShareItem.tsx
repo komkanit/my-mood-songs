@@ -34,7 +34,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
 
     useEffect(() => {
       if (firstRender.current) {
-        onButtonClick();
+        // onButtonClick();
 
       }
       return () => {
@@ -114,8 +114,8 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                             )
                         })}
                     </div>
-                    <p className="text-center font-extrabold text-2xl sm:text-3xl mt-10">{title}</p>
-                    <p className="text-center mb-2 text-sm text-theme-grey">Personalized playlist based on your {props.moodName} mood</p>
+                    <p className="text-center font-extrabold text-xl sm:text-3xl mt-10">{title}</p>
+                    <p className="text-center mb-2 text-xs sm:text-sm text-theme-grey">Personalized playlist based on your {props.moodName} mood</p>
                     <div className="">
                         {props.recommendedTracks.slice(0, 4).map((track, index) => {
                             return (
@@ -125,8 +125,8 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                                             <img src={track.album.images[2].url} alt="" />
                                         </div>
                                         <div className="ml-2 flex-1">
-                                            <p className="text-theme-grey text-lg font-semibold">{track.name.split(' ').slice(0, 10).join(' ')}{track.name.split(' ').length > 10 ? '...' : ''}</p>
-                                            <p className="text-black text-base">{track.artists[0].name}</p>
+                                            <p className="text-theme-grey text-sm sm:text-lg font-semibold">{track.name.split(' ').slice(0, 10).join(' ')}{track.name.split(' ').length > 10 ? '...' : ''}</p>
+                                            <p className="text-black text-xs sm:text-base">{track.artists[0].name}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -139,8 +139,8 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                                 <img src="/images/qr.png" alt="" />
                             </div>
                             <div className="ml-2">
-                                <p className="text-theme-grey text-lg font-semibold">Your playlist</p>
-                                <p className="text-black text-base">moodify-songs.vercel.app</p>
+                                <p className="text-theme-grey text-sm sm:text-lg font-semibold">Your playlist</p>
+                                <p className="text-black text-xs sm:text-base">moodify-songs.vercel.app</p>
                             </div>
                         </div>
                     </div>
