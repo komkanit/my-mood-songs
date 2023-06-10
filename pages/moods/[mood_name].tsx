@@ -13,6 +13,7 @@ import AddToPlayList from '../../components/AddToPlayList'
 import { Transition } from '@headlessui/react'
 import SupportUs from '../../components/SupportUs'
 import Share from '../../components/Share'
+import Link from 'next/link'
 
 export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = async (context) => {
     const isLogin = await isAuth({ req: context.req, res: context.res, isRequiredRefreshToken: true });
@@ -137,12 +138,31 @@ const MoodPage = () => {
         }
         <div className="flex items-center">
           <SupportUs />
-          <Share moodName={mood_name} recommendedTracks={recommendedTracks} />
+          {
+            <Share moodName={mood_name} recommendedTracks={recommendedTracks} />
+          }
         </div>
       </div>
       {
         false &&
         <SpotifyPlayer playlist={recommendedTracks} currentTrack={currentTrack} setCurrentTrack={setCurrentTrack} />
+      }
+      {
+        !isLoading && recommendedTracks.length === 0 &&
+        <div className="text-center mt-16">
+          <p className="text-2xl font-bold">
+          Sorry We couldn&apos;t generate a playlist for you.
+          </p>
+          <p className="text-xl font-bold mt-6">
+          It&apos;s been a while since you listened to Spotify.
+          </p>
+          <p className="text-xl flex items-center justify-center">
+            Listen more on
+            <Link className="inline-block ml-2" href="https://www.spotify.com">
+              <Image src="/images/spotify-icon.png" width="30" height="30" alt="spotify logo" />
+            </Link>
+          </p>
+        </div>
       }
       <div className={`${mood?.colors[0]}`}>
         {
