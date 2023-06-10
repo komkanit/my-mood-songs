@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useClickOutside } from "../../lib/hook/useClickOutside";
 import { FeelingType } from "../../lib/moodHelper";
+import Link from "next/link";
 
 export default function Mood({feeling, index}: { index: number, feeling: FeelingType }) {
     const [isHide, setIsHide] = useState(true)
@@ -40,20 +41,27 @@ export default function Mood({feeling, index}: { index: number, feeling: Feeling
 
     return (
             isPreview ?
-            <button ref={ref}
-                onClick={onPreviewClick}
-                className={`animate-wiggle ${defaultClass} flex-col`}
-                >
-                <span className="text-theme-grey font-bold cursor-pointer text-2xl">{feeling.feeling}</span>
-                <span className="text-theme-grey">click!</span>
-            </button>
+            <Link href={`/moods/${feeling.feeling}`}>
+                <button ref={ref}
+                    onClick={onPreviewClick}
+                    className={`animate-wiggle ${defaultClass} flex-col`}
+                    >
+                    <span className="text-theme-grey font-bold cursor-pointer text-sm sm:text-lg">{feeling.feeling}</span>
+                    <span className="text-theme-grey text-xs sm:text-sm">click!</span>
+                </button>
+            </Link>
             :
             <button
                 onClick={onMoodClick}
                 className={`${enterAnimation} duration-500 hover:rotate-12 hover:scale-110 ${defaultClass}`}>
-                {
-                    <Image src={imageUrl} width="35" height="35" alt={feeling.feeling} />
-                }
+                    <>
+                        <div className="hidden sm:block">
+                            <Image src={imageUrl} width="35" height="35" alt={feeling.feeling} />
+                        </div>
+                        <div className="sm:hidden block">
+                            <Image src={imageUrl} width="25" height="25" alt={feeling.feeling} />
+                        </div>
+                    </>
             </button>
     )
     
