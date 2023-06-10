@@ -14,7 +14,7 @@ export default function Share(props: {moodName: string, recommendedTracks: Spoti
             setPreviewText(true);
             setTimeout(() => {
                 setPreviewText(false);
-            }, 2000);
+            }, 3000);
         }
     }, [status]);
     const onSetStatus = (newStatus: string) => {
