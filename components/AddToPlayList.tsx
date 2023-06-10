@@ -120,7 +120,7 @@ export default function AddToPlayList(props: {moodName: string, tracks: SpotifyT
                 :
                 <button onClick={onModalOpen} className="text-white hover:bg-gray-800 bg-black px-5 py-1 rounded-full border-">
                   <Image className="inline-block mr-2" src="/images/spotify-icon.png" width="20" height="20" alt="" />
-                    Listen in Spotify
+                  Create playlist
                 </button>
               }
             </div>

@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps<{ isLogin: boolean }> = asyn
 
 export default function Index(props: { isLogin: boolean }) {
     return (
-        <div className="text-center mt-20">
+        <div className="text-center mt-8">
             <TitleText text="You tell your" boldText="mood" icon="/images/smile-icon.png" />
             <TitleText text="I tell you" boldText="songs" icon="/images/music-icon.png" />
             <Image className="mx-auto my-5" width={250} height={250} src="/images/mood-main.png" alt="" />

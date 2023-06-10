@@ -56,6 +56,7 @@ export default function Share(props: {moodName: string, recommendedTracks: Spoti
               >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-sm bg-white text-left align-middle shadow-xl transition-all">
                 <div>
+                    <button className="fixed right-4 top-3 bg-black text-theme-orange rounded-full py-1 px-3" onClick={onClose}>X</button>
                         <ShareItem {...props} status={status} onSetStatus={onSetStatus} />
                     {
                         status === 'ready' && previewText &&
