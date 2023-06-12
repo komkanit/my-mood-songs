@@ -29,6 +29,11 @@ export const useRecommendedTracks = (mood: MoodConfigValue | null) => {
             limit: 20,
             ...mood?.spotifyConfig,
           }).then((response) => {
+            if (!response?.tracks) {
+              setRecommendedTracks([]);
+              setIsLoading(false);
+              return;
+            }
             setRecommendedTracks(response.tracks);
             setIsLoading(false);
           })
