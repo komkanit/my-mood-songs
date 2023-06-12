@@ -76,7 +76,7 @@ const MoodPage = () => {
   const [user, setUser] = useState<any | null>(null)
   const shouldCallgetCurrentUser = useRef(true);
   const [isShow, setIsShow] = useState(false);
-  const userImage = user?.images[0].url;
+  const userImage = user?.images[0]?.url;
   const audioRef = useRef(null) as any;
 
   useEffect(() => {
