@@ -31,7 +31,12 @@ export const useRecommendedTracks = (mood: MoodConfigValue | null) => {
           }).then((response) => {
             setRecommendedTracks(response.tracks);
             setIsLoading(false);
-          });
+          })
+          .catch((error) => {
+            console.error(error);
+            setIsLoading(false);
+            setRecommendedTracks([]);
+          })
         })
         .catch((error) => {
           console.error(error);
