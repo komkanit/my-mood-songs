@@ -18,6 +18,8 @@ function App({ Component, pageProps }: AppProps) {
         <meta property="og:description" content="Let your mood pick the music on Spotify" />
         <meta property="og:site_name" content="Moodify" />
         <meta name="twitter:image:alt" content="Let your mood pick the music on Spotify" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png" />
+        <title>Moodify</title>
       </Head>
       <Header />
       <Component {...pageProps} />
