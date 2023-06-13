@@ -34,7 +34,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
 
     useEffect(() => {
       if (firstRender.current) {
-        // onButtonClick();
+        onButtonClick();
 
       }
       return () => {
@@ -49,6 +49,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
         onSetStatus('downloading');
         setTimeout(async () => {
             try {
+                await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
                 await toPng(ref.current, { includeQueryParams: true, cacheBust: true })
@@ -126,8 +127,8 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                                         <div className="w-16 h-16">
                                             <img src={track.album.images[2].url} alt="" />
                                         </div>
-                                        <div className="ml-2">
-                                            <p className="text-theme-grey w-full text-sm sm:text-lg font-semibold">{track.name.split(' ').slice(0, 10).join(' ')}{track.name.split(' ').length > 10 ? '...' : ''}</p>
+                                        <div className="ml-2 flex-1">
+                                            <p className="text-theme-grey w-full text-sm sm:text-lg font-semibold">{track.name.split(' ').slice(0, 9).join(' ')}{track.name.split(' ').length > 10 ? '...' : ''}</p>
                                             <p className="text-black text-xs w-full sm:text-base">{track.artists[0].name}</p>
                                         </div>
                                     </div>
@@ -140,7 +141,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
                             <div className="w-20 h-20 -ml-2">
                                 <img src="/images/qr.png" alt="" />
                             </div>
-                            <div className="ml-2">
+                            <div className="ml-2 flex-1">
                                 <p className="text-theme-grey text-sm sm:text-lg font-semibold">Your playlist</p>
                                 <p className="text-black text-xs sm:text-base">moodify-songs.vercel.app</p>
                             </div>
@@ -152,14 +153,17 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
         )
     }
       <div id="image_preview"></div>
-      {/* <div className={`${mood?.colors[0]} -mt-4 pb-2 text-end pr-4`}>
-        <button className="text-theme-yellow px-4 py-2 flex ml-auto rounded-3xl bg-black shadow-md hover:bg-gray-800" disabled={status !== 'idle'} onClick={onButtonClick}>
-            <NextImage className="mr-2 inline-block" src="/images/download.png" width="15" height="15" alt="" />
-            <span className="inline-block text-lg">
-                {getButtonText(status)}
-            </span>
-            </button>
-      </div> */}
+      {
+        status === 'idle' &&
+        <div className={`${mood?.colors[0]} -mt-4 pb-2 text-end pr-4`}>
+            <button className="text-theme-yellow px-4 py-2 flex ml-auto rounded-3xl bg-black shadow-md hover:bg-gray-800" disabled={status !== 'idle'} onClick={onButtonClick}>
+                <NextImage className="mr-2 inline-block" src="/images/download.png" width="15" height="15" alt="" />
+                <span className="inline-block text-lg">
+                    {getButtonText(status)}
+                </span>
+                </button>
+        </div>
+      }
     </> 
     );
 }
