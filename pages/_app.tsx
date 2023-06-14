@@ -19,6 +19,11 @@ function App({ Component, pageProps }: AppProps) {
         <meta property="og:site_name" content="Moodify" />
         <meta name="twitter:image:alt" content="Let your mood pick the music on Spotify" />
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png" />
+        
+        <meta name="twitter:site" content="Moodify" />
+        <meta name="twitter:title" content="Moodify - Personalized Spotify playlist based on you mood" />
+        <meta name="twitter:description" content="Let your mood pick the music on Spotify" />
+        <meta name="twitter:image" content="https://moodify-songs.vercel.app/images/og_image.jpeg" />
         <title>Moodify</title>
       </Head>
       <Header />
