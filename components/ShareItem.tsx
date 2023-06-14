@@ -34,7 +34,7 @@ export default function ShareItem (props: {moodName: string, recommendedTracks: 
 
     useEffect(() => {
       if (firstRender.current) {
-        onButtonClick();
+//         onButtonClick();
 
       }
       return () => {
